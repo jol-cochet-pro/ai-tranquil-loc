@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient } from "./client";
 
 export interface Document {
   id: string;
@@ -17,20 +17,17 @@ export const documentsApi = {
   listForPersonne: (personneId: string) =>
     apiClient.get<Document[]>(`/dossier/personnes/${personneId}/documents`).then((r) => r.data),
 
-  upload: (
-    personneId: string,
-    file: File,
-    typeDocumentId: string,
-    typeDocumentPersonnalise?: string,
-  ) => {
+  upload: (personneId: string, file: File, typeDocumentId: string, typeDocumentPersonnalise?: string) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('typeDocumentId', typeDocumentId);
+    formData.append("file", file);
+    formData.append("typeDocumentId", typeDocumentId);
     if (typeDocumentPersonnalise) {
-      formData.append('typeDocumentPersonnalise', typeDocumentPersonnalise);
+      formData.append("typeDocumentPersonnalise", typeDocumentPersonnalise);
     }
     return apiClient
-      .post<Document>(`/dossier/personnes/${personneId}/documents`, formData)
+      .post<Document>(`/dossier/personnes/${personneId}/documents`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((r) => r.data);
   },
 
@@ -39,7 +36,7 @@ export const documentsApi = {
 
   download: async (documentId: string) => {
     const response = await apiClient.get(`/dossier/documents/${documentId}/download`, {
-      responseType: 'blob',
+      responseType: "blob",
     });
     return response;
   },

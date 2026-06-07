@@ -1,18 +1,18 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { personnesApi, type Personne, type CreatePersonneDto } from '../api/personnes';
-import { configurationApi, type Statut, type DocumentType } from '../api/configuration';
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { personnesApi, type Personne, type CreatePersonneDto } from "../api/personnes";
+import { configurationApi, type Statut, type DocumentType } from "../api/configuration";
 
 function emptyForm(): CreatePersonneDto {
   return {
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
+    nom: "",
+    prenom: "",
+    email: "",
+    telephone: "",
     revenus: undefined,
-    typeLogement: 'locataire',
-    statutId: '',
+    typeLogement: "locataire",
+    statutId: "",
   };
 }
 
@@ -26,18 +26,15 @@ export function DossierBuilder() {
   const [editingPersonne, setEditingPersonne] = useState<Personne | null>(null);
   const [form, setForm] = useState<CreatePersonneDto>(emptyForm());
   const [showForm, setShowForm] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const loadData = useCallback(async () => {
     try {
-      const [personnesData, statutsData] = await Promise.all([
-        personnesApi.list(),
-        configurationApi.statuts(),
-      ]);
+      const [personnesData, statutsData] = await Promise.all([personnesApi.list(), configurationApi.statuts()]);
       setPersonnes(personnesData);
       setStatuts(statutsData);
     } catch {
-      setError('Erreur lors du chargement des données');
+      setError("Erreur lors du chargement des données");
     }
   }, []);
 
@@ -61,8 +58,8 @@ export function DossierBuilder() {
     setForm({
       nom: personne.nom,
       prenom: personne.prenom,
-      email: personne.email || '',
-      telephone: personne.telephone || '',
+      email: personne.email || "",
+      telephone: personne.telephone || "",
       revenus: personne.revenus ?? undefined,
       typeLogement: personne.typeLogement,
       statutId: personne.statutId,
@@ -78,24 +75,24 @@ export function DossierBuilder() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Supprimer cette personne ?')) return;
+    if (!window.confirm("Supprimer cette personne ?")) return;
     try {
       await personnesApi.delete(id);
       setPersonnes((prev) => prev.filter((p) => p.id !== id));
     } catch {
-      setError('Erreur lors de la suppression');
+      setError("Erreur lors de la suppression");
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     const formData: CreatePersonneDto = {
       ...form,
       email: form.email || undefined,
       telephone: form.telephone || undefined,
-      revenus: form.revenus || undefined,
+      revenus: form.revenus ?? undefined,
     };
 
     try {
@@ -109,22 +106,22 @@ export function DossierBuilder() {
       setShowForm(false);
       setEditingPersonne(null);
     } catch {
-      setError('Erreur lors de l\'enregistrement');
+      setError("Erreur lors de l'enregistrement");
     }
   };
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const statutLabel = (id: string) => statuts.find((s) => s.id === id)?.nom || id;
 
   const typeLogementLabel = (t: string) => {
     const labels: Record<string, string> = {
-      locataire: 'Locataire',
-      proprietaire: 'Propriétaire',
-      heberge: 'Hébergé',
+      locataire: "Locataire",
+      proprietaire: "Propriétaire",
+      heberge: "Hébergé",
     };
     return labels[t] || t;
   };
@@ -140,7 +137,7 @@ export function DossierBuilder() {
       </header>
 
       <nav className="nav-links">
-        <button onClick={() => navigate('/dashboard')}>Tableau de bord</button>
+        <button onClick={() => navigate("/dashboard")}>Tableau de bord</button>
         <button className="active">Gestion des personnes</button>
       </nav>
 
@@ -172,7 +169,7 @@ export function DossierBuilder() {
                   <span className="type-logement">{typeLogementLabel(personne.typeLogement)}</span>
                   {personne.email && <span className="email">{personne.email}</span>}
                   {personne.revenus != null && (
-                    <span className="revenus">{personne.revenus.toLocaleString('fr-FR')} €/mois</span>
+                    <span className="revenus">{personne.revenus.toLocaleString("fr-FR")} €/mois</span>
                   )}
                 </div>
                 <div className="personne-actions">
@@ -188,7 +185,7 @@ export function DossierBuilder() {
 
         {showForm && (
           <section className="form-section">
-            <h2>{editingPersonne ? 'Modifier' : 'Ajouter'} une personne</h2>
+            <h2>{editingPersonne ? "Modifier" : "Ajouter"} une personne</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-row">
                 <label>
@@ -201,11 +198,7 @@ export function DossierBuilder() {
                 </label>
                 <label>
                   Nom
-                  <input
-                    value={form.nom}
-                    onChange={(e) => setForm((f) => ({ ...f, nom: e.target.value }))}
-                    required
-                  />
+                  <input value={form.nom} onChange={(e) => setForm((f) => ({ ...f, nom: e.target.value }))} required />
                 </label>
               </div>
 
@@ -233,7 +226,7 @@ export function DossierBuilder() {
                   <input
                     type="number"
                     min="0"
-                    value={form.revenus ?? ''}
+                    value={form.revenus ?? ""}
                     onChange={(e) =>
                       setForm((f) => ({ ...f, revenus: e.target.value ? Number(e.target.value) : undefined }))
                     }
@@ -243,7 +236,9 @@ export function DossierBuilder() {
                   Type de logement
                   <select
                     value={form.typeLogement}
-                    onChange={(e) => setForm((f) => ({ ...f, typeLogement: e.target.value as CreatePersonneDto['typeLogement'] }))}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, typeLogement: e.target.value as CreatePersonneDto["typeLogement"] }))
+                    }
                   >
                     <option value="locataire">Locataire</option>
                     <option value="proprietaire">Propriétaire</option>
@@ -286,7 +281,7 @@ export function DossierBuilder() {
 
               <div className="form-actions">
                 <button type="submit" className="btn-primary">
-                  {editingPersonne ? 'Enregistrer' : 'Ajouter'}
+                  {editingPersonne ? "Enregistrer" : "Ajouter"}
                 </button>
                 <button
                   type="button"

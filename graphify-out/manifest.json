@@ -1,0 +1,602 @@
+{
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/eslint.config.mjs": {
+    "mtime": 1780858416.691605,
+    "ast_hash": "681f09353f53b722212b9ea23d9e296d",
+    "semantic_hash": "681f09353f53b722212b9ea23d9e296d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/browser.ts": {
+    "mtime": 1780862844.0405962,
+    "ast_hash": "1c709bed4b5a51584d334cce6f727969",
+    "semantic_hash": "1c709bed4b5a51584d334cce6f727969"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/client.ts": {
+    "mtime": 1780862844.0405962,
+    "ast_hash": "26ca283361db9147671026da443d82d2",
+    "semantic_hash": "26ca283361db9147671026da443d82d2"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/commonInputTypes.ts": {
+    "mtime": 1780862844.0405962,
+    "ast_hash": "257dee79279d1c13e28a966887148ebc",
+    "semantic_hash": "257dee79279d1c13e28a966887148ebc"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/enums.ts": {
+    "mtime": 1780862844.0405962,
+    "ast_hash": "3a1f6852af9cf0c3d9728bfc1d4128a4",
+    "semantic_hash": "3a1f6852af9cf0c3d9728bfc1d4128a4"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/internal/class.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "0c09cccdcd10810d1dd489ad89744d8c",
+    "semantic_hash": "0c09cccdcd10810d1dd489ad89744d8c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/internal/prismaNamespace.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "4530443cc0a3394db2d33f248b3d7d01",
+    "semantic_hash": "4530443cc0a3394db2d33f248b3d7d01"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/internal/prismaNamespaceBrowser.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "8375ede57a7973a38c64b50104b52f8b",
+    "semantic_hash": "8375ede57a7973a38c64b50104b52f8b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models.ts": {
+    "mtime": 1780862844.0405962,
+    "ast_hash": "f0652a09b98f28abc98dc2a1db935e52",
+    "semantic_hash": "f0652a09b98f28abc98dc2a1db935e52"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/Account.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "0997e55f7afd574bfd4be21133d80c98",
+    "semantic_hash": "0997e55f7afd574bfd4be21133d80c98"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/Document.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "56ba843cc2d806b263b56e1fa5069331",
+    "semantic_hash": "56ba843cc2d806b263b56e1fa5069331"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/DocumentType.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "be10633163004993d662c1ae47d31a50",
+    "semantic_hash": "be10633163004993d662c1ae47d31a50"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/Dossier.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "df88d2a48be5da32e319ead04b70b649",
+    "semantic_hash": "df88d2a48be5da32e319ead04b70b649"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/Personne.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "fb2bd879b1b73729411b77fe1f43171a",
+    "semantic_hash": "fb2bd879b1b73729411b77fe1f43171a"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/Statut.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "921ea65dd36dc28ad535714316e8bb52",
+    "semantic_hash": "921ea65dd36dc28ad535714316e8bb52"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/generated/prisma/models/StatutDocumentType.ts": {
+    "mtime": 1780862844.0421135,
+    "ast_hash": "d8da5533ef51f01f3e0b8b5a90c4cb18",
+    "semantic_hash": "d8da5533ef51f01f3e0b8b5a90c4cb18"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/nest-cli.json": {
+    "mtime": 1780858416.6916606,
+    "ast_hash": "b6c9c4b64b7092bea720263a47b574cf",
+    "semantic_hash": "b6c9c4b64b7092bea720263a47b574cf"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/package.json": {
+    "mtime": 1780863105.5520966,
+    "ast_hash": "ec66ad4650be1cc720d4485818dcc4a7",
+    "semantic_hash": "ec66ad4650be1cc720d4485818dcc4a7"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/prisma.config.ts": {
+    "mtime": 1780863105.552175,
+    "ast_hash": "3c78bfe792927758d765abaf76dc473b",
+    "semantic_hash": "3c78bfe792927758d765abaf76dc473b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/prisma/migrations/20260607191034_init/migration.sql": {
+    "mtime": 1780863105.552175,
+    "ast_hash": "39bfcef7c0a1a3dff13b4befe167a79b",
+    "semantic_hash": "39bfcef7c0a1a3dff13b4befe167a79b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/prisma/migrations/20260607193935_add_personnes_config/migration.sql": {
+    "mtime": 1780863105.5522554,
+    "ast_hash": "5c38976a20811542b749d55e98e02440",
+    "semantic_hash": "5c38976a20811542b749d55e98e02440"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/prisma/seed.ts": {
+    "mtime": 1780863105.5525572,
+    "ast_hash": "f4c637050252602f24670d19044e6786",
+    "semantic_hash": "f4c637050252602f24670d19044e6786"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/app.controller.spec.ts": {
+    "mtime": 1780860193.9574564,
+    "ast_hash": "4a1c0e1133dbda6f6e8f3e60d984eddf",
+    "semantic_hash": "4a1c0e1133dbda6f6e8f3e60d984eddf"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/app.controller.ts": {
+    "mtime": 1780858416.6918933,
+    "ast_hash": "3ab0e83b7d93b85ea489ab994ec79ea1",
+    "semantic_hash": "3ab0e83b7d93b85ea489ab994ec79ea1"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/app.module.ts": {
+    "mtime": 1780863105.552653,
+    "ast_hash": "42614b03ee1b770b4671d33a93fc8edc",
+    "semantic_hash": "42614b03ee1b770b4671d33a93fc8edc"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/app.service.ts": {
+    "mtime": 1780858416.6921077,
+    "ast_hash": "cd3fb7836f10de08a725ee1fd4ab36fe",
+    "semantic_hash": "cd3fb7836f10de08a725ee1fd4ab36fe"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/auth.controller.ts": {
+    "mtime": 1780863105.552726,
+    "ast_hash": "5d372670384fa798735d20db7f0e0c0d",
+    "semantic_hash": "5d372670384fa798735d20db7f0e0c0d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/auth.module.ts": {
+    "mtime": 1780863105.5527885,
+    "ast_hash": "7b3e6db8a71165ac339f666c5955950c",
+    "semantic_hash": "7b3e6db8a71165ac339f666c5955950c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/auth.service.spec.ts": {
+    "mtime": 1780863105.55286,
+    "ast_hash": "076564b37db5b2ea8b7ff7f020f2dcb5",
+    "semantic_hash": "076564b37db5b2ea8b7ff7f020f2dcb5"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/auth.service.ts": {
+    "mtime": 1780863105.5529377,
+    "ast_hash": "69cfe1a1ff84524ff12e2275d24dff1b",
+    "semantic_hash": "69cfe1a1ff84524ff12e2275d24dff1b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/dto/auth-response.dto.ts": {
+    "mtime": 1780863105.55302,
+    "ast_hash": "ac385cfdbeb5bb2f17842ca280a7024c",
+    "semantic_hash": "ac385cfdbeb5bb2f17842ca280a7024c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/dto/login.dto.ts": {
+    "mtime": 1780863105.5530887,
+    "ast_hash": "5cd34d0ce8cc951608da489163af4f28",
+    "semantic_hash": "5cd34d0ce8cc951608da489163af4f28"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/dto/register.dto.ts": {
+    "mtime": 1780863105.5531518,
+    "ast_hash": "6d14f64a5051f6a2659147579a61913a",
+    "semantic_hash": "6d14f64a5051f6a2659147579a61913a"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/jwt-auth.guard.ts": {
+    "mtime": 1780863105.5531518,
+    "ast_hash": "184c5bd056e5657c27ecdd69e1e40701",
+    "semantic_hash": "184c5bd056e5657c27ecdd69e1e40701"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/auth/jwt.strategy.ts": {
+    "mtime": 1780863105.553267,
+    "ast_hash": "c3a2ae14d9f0e28f527939450ef318eb",
+    "semantic_hash": "c3a2ae14d9f0e28f527939450ef318eb"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/configuration/configuration.controller.ts": {
+    "mtime": 1780863105.55335,
+    "ast_hash": "9d675b865dafc204308721b067bdeca8",
+    "semantic_hash": "9d675b865dafc204308721b067bdeca8"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/configuration/configuration.module.ts": {
+    "mtime": 1780863105.55335,
+    "ast_hash": "6e98e8420feca7c82c6b39c0c0e6ce20",
+    "semantic_hash": "6e98e8420feca7c82c6b39c0c0e6ce20"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/configuration/configuration.service.ts": {
+    "mtime": 1780863105.5534728,
+    "ast_hash": "e35fb274d2931be4418c628f9f88871e",
+    "semantic_hash": "e35fb274d2931be4418c628f9f88871e"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/main.ts": {
+    "mtime": 1780863105.5535588,
+    "ast_hash": "3daf40d743a5903e103d47820fdc089c",
+    "semantic_hash": "3daf40d743a5903e103d47820fdc089c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/dto/create-personne.dto.ts": {
+    "mtime": 1780863105.5535588,
+    "ast_hash": "05d671146f3f7401d581771283ae9cd8",
+    "semantic_hash": "05d671146f3f7401d581771283ae9cd8"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/dto/update-personne.dto.ts": {
+    "mtime": 1780863105.5535588,
+    "ast_hash": "8354ae8318e000c01338d04d83761801",
+    "semantic_hash": "8354ae8318e000c01338d04d83761801"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/personne.controller.ts": {
+    "mtime": 1780863105.5537505,
+    "ast_hash": "a5b909d0597b30e7e3eee77c0b443627",
+    "semantic_hash": "a5b909d0597b30e7e3eee77c0b443627"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/personne.module.ts": {
+    "mtime": 1780863105.5538223,
+    "ast_hash": "93e96cf63d2a547c8eda22031da2fc49",
+    "semantic_hash": "93e96cf63d2a547c8eda22031da2fc49"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/personne.service.spec.ts": {
+    "mtime": 1780863105.5539103,
+    "ast_hash": "0b0453d7b3172724877caf7821f1fc01",
+    "semantic_hash": "0b0453d7b3172724877caf7821f1fc01"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/personne/personne.service.ts": {
+    "mtime": 1780863105.5539956,
+    "ast_hash": "cb0a3c7b2058629817639bd2fab644ff",
+    "semantic_hash": "cb0a3c7b2058629817639bd2fab644ff"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/prisma/prisma.module.ts": {
+    "mtime": 1780863105.5540862,
+    "ast_hash": "3505a1831c78f0a9475e4ce0f0092410",
+    "semantic_hash": "3505a1831c78f0a9475e4ce0f0092410"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/src/prisma/prisma.service.ts": {
+    "mtime": 1780863105.5541496,
+    "ast_hash": "2cea455c9bec95f632cb087005171019",
+    "semantic_hash": "2cea455c9bec95f632cb087005171019"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/test/app.e2e-spec.ts": {
+    "mtime": 1780858416.6924298,
+    "ast_hash": "0ea8ccb3ec8ee5218958290edfef858d",
+    "semantic_hash": "0ea8ccb3ec8ee5218958290edfef858d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/test/jest-e2e.json": {
+    "mtime": 1780858416.692325,
+    "ast_hash": "9f2f5b0e1da31d7b04e205c944e85e8d",
+    "semantic_hash": "9f2f5b0e1da31d7b04e205c944e85e8d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/tsconfig.build.json": {
+    "mtime": 1780858416.6917636,
+    "ast_hash": "f73d0f011ee462dcdf7f02bbdcde284b",
+    "semantic_hash": "f73d0f011ee462dcdf7f02bbdcde284b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/tsconfig.json": {
+    "mtime": 1780863105.5542397,
+    "ast_hash": "84034750bd6efdc286a8325201e8076b",
+    "semantic_hash": "84034750bd6efdc286a8325201e8076b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/eslint.config.js": {
+    "mtime": 1780858454.8086915,
+    "ast_hash": "0355276bc79439afe3c53e3a2470ca1e",
+    "semantic_hash": "0355276bc79439afe3c53e3a2470ca1e"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/package.json": {
+    "mtime": 1780863105.5551336,
+    "ast_hash": "b5f4736fe3c3fa684a34035a50a56440",
+    "semantic_hash": "b5f4736fe3c3fa684a34035a50a56440"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/App.tsx": {
+    "mtime": 1780863105.5552483,
+    "ast_hash": "2be8e4b248d974186f09447af3548cc2",
+    "semantic_hash": "2be8e4b248d974186f09447af3548cc2"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/api/auth.ts": {
+    "mtime": 1780863105.555323,
+    "ast_hash": "2e8f47f7946d37ee4e3b7a62a71c99cd",
+    "semantic_hash": "2e8f47f7946d37ee4e3b7a62a71c99cd"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/api/client.ts": {
+    "mtime": 1780863105.5554078,
+    "ast_hash": "fa264ece5b90291a12d2407565098089",
+    "semantic_hash": "fa264ece5b90291a12d2407565098089"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/api/configuration.ts": {
+    "mtime": 1780863105.5554078,
+    "ast_hash": "e37d7c17c970138725487581505f1fc7",
+    "semantic_hash": "e37d7c17c970138725487581505f1fc7"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/api/personnes.ts": {
+    "mtime": 1780863105.5554078,
+    "ast_hash": "891e01ee3355da79e031d5f89a054d20",
+    "semantic_hash": "891e01ee3355da79e031d5f89a054d20"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/context/AuthContext.tsx": {
+    "mtime": 1780863105.5556104,
+    "ast_hash": "f312853704ece756a94abe41ba28f950",
+    "semantic_hash": "f312853704ece756a94abe41ba28f950"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/main.tsx": {
+    "mtime": 1780859267.1889691,
+    "ast_hash": "787e5a07efeb2bf6209d5937195f2f68",
+    "semantic_hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/pages/Dashboard.tsx": {
+    "mtime": 1780863105.5558445,
+    "ast_hash": "aa3cbceb29e83613d94341edf62b82aa",
+    "semantic_hash": "aa3cbceb29e83613d94341edf62b82aa"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/pages/DossierBuilder.tsx": {
+    "mtime": 1780863105.5559523,
+    "ast_hash": "dae68cc13b4aa0f1ce47e38430a677d8",
+    "semantic_hash": "dae68cc13b4aa0f1ce47e38430a677d8"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/pages/Login.tsx": {
+    "mtime": 1780863105.5560644,
+    "ast_hash": "0a1822e1ad22d34530ebd9206f7c4caf",
+    "semantic_hash": "0a1822e1ad22d34530ebd9206f7c4caf"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/pages/ProtectedRoute.tsx": {
+    "mtime": 1780863105.5561519,
+    "ast_hash": "54c4847e37b188ce72914b6ea37d65c6",
+    "semantic_hash": "54c4847e37b188ce72914b6ea37d65c6"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/pages/Signup.tsx": {
+    "mtime": 1780863105.5562444,
+    "ast_hash": "05cbf8025185dbc087dbd674a214029c",
+    "semantic_hash": "05cbf8025185dbc087dbd674a214029c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/test/DossierBuilder.test.tsx": {
+    "mtime": 1780863105.5562553,
+    "ast_hash": "9653324d21cfb4317d4d9d3615fc21d7",
+    "semantic_hash": "9653324d21cfb4317d4d9d3615fc21d7"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/test/app.test.ts": {
+    "mtime": 1780858734.7575843,
+    "ast_hash": "17a37928cc16d7c70e911b4d148fabd8",
+    "semantic_hash": "17a37928cc16d7c70e911b4d148fabd8"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/test/configuration-api.test.ts": {
+    "mtime": 1780863105.55642,
+    "ast_hash": "5cfbf6a53e3c5039ff1ba965697d363d",
+    "semantic_hash": "5cfbf6a53e3c5039ff1ba965697d363d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/test/personnes-api.test.ts": {
+    "mtime": 1780863105.5564952,
+    "ast_hash": "1f08030cf9e26bbf71d6ba95e7f6a9aa",
+    "semantic_hash": "1f08030cf9e26bbf71d6ba95e7f6a9aa"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/test/setup.ts": {
+    "mtime": 1780863105.5565696,
+    "ast_hash": "00e47f7b9836e8f731101981fa2bb2de",
+    "semantic_hash": "00e47f7b9836e8f731101981fa2bb2de"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/tsconfig.app.json": {
+    "mtime": 1780858454.8104193,
+    "ast_hash": "136630b5accce1ca50663df229534a26",
+    "semantic_hash": "136630b5accce1ca50663df229534a26"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/tsconfig.json": {
+    "mtime": 1780858454.810524,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/tsconfig.node.json": {
+    "mtime": 1780858454.8106337,
+    "ast_hash": "70bdd0a673bcfc0e828080b306e7c680",
+    "semantic_hash": "70bdd0a673bcfc0e828080b306e7c680"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/vite.config.ts": {
+    "mtime": 1780858454.8111248,
+    "ast_hash": "d1bc84d991228ada9b2918b3425aed96",
+    "semantic_hash": "d1bc84d991228ada9b2918b3425aed96"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/vitest.config.ts": {
+    "mtime": 1780863105.5565696,
+    "ast_hash": "1074dcc53a5db25736543371e9209982",
+    "semantic_hash": "1074dcc53a5db25736543371e9209982"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/skills-lock.json": {
+    "mtime": 1780863144.2190266,
+    "ast_hash": "d4386eed91ac1aca51262d39b0d80a7a",
+    "semantic_hash": "d4386eed91ac1aca51262d39b0d80a7a"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/grill-with-docs/ADR-FORMAT.md": {
+    "mtime": 1780855086.1243184,
+    "ast_hash": "bb327bab674f400796f64b6e2ef5850c",
+    "semantic_hash": "bb327bab674f400796f64b6e2ef5850c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/grill-with-docs/CONTEXT-FORMAT.md": {
+    "mtime": 1780855086.1240315,
+    "ast_hash": "c2f41ffc931955b2b8d01322273d75fa",
+    "semantic_hash": "c2f41ffc931955b2b8d01322273d75fa"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/grill-with-docs/SKILL.md": {
+    "mtime": 1780855086.1243184,
+    "ast_hash": "8bf29044d7890561fe964b884498ff9e",
+    "semantic_hash": "8bf29044d7890561fe964b884498ff9e"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prd-to-issues/SKILL.md": {
+    "mtime": 1780855162.2142696,
+    "ast_hash": "5729ea29e94eeecb75d55c8c9fe398d7",
+    "semantic_hash": "5729ea29e94eeecb75d55c8c9fe398d7"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/SKILL.md": {
+    "mtime": 1780863144.2078285,
+    "ast_hash": "b545c1aaeae60c3488bec8fd2515940f",
+    "semantic_hash": "b545c1aaeae60c3488bec8fd2515940f"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/db-execute.md": {
+    "mtime": 1780863144.2083812,
+    "ast_hash": "2abcb75cc1e63351637a7ada9e8e6bcb",
+    "semantic_hash": "2abcb75cc1e63351637a7ada9e8e6bcb"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/db-pull.md": {
+    "mtime": 1780863144.2084131,
+    "ast_hash": "1d6403ad19cd1dcd01913af64eed74df",
+    "semantic_hash": "1d6403ad19cd1dcd01913af64eed74df"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/db-push.md": {
+    "mtime": 1780863144.2084131,
+    "ast_hash": "736b368c55a07aa4c53d9e5f06552416",
+    "semantic_hash": "736b368c55a07aa4c53d9e5f06552416"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/db-seed.md": {
+    "mtime": 1780863144.2084131,
+    "ast_hash": "bbbbd45bdab19258ff5ff298c3196446",
+    "semantic_hash": "bbbbd45bdab19258ff5ff298c3196446"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/debug.md": {
+    "mtime": 1780863144.2084854,
+    "ast_hash": "9e33857abfdf235276ad267b29685147",
+    "semantic_hash": "9e33857abfdf235276ad267b29685147"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/dev.md": {
+    "mtime": 1780863144.2085075,
+    "ast_hash": "fa5949ebfa1bdb544f6d30dac5305425",
+    "semantic_hash": "fa5949ebfa1bdb544f6d30dac5305425"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/format.md": {
+    "mtime": 1780863144.2085075,
+    "ast_hash": "3b37e4e0cfd9ff8396e06b23aebb9eb7",
+    "semantic_hash": "3b37e4e0cfd9ff8396e06b23aebb9eb7"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/generate.md": {
+    "mtime": 1780863144.2085075,
+    "ast_hash": "8e722d3fbfe7a47edaa2db28890b77cf",
+    "semantic_hash": "8e722d3fbfe7a47edaa2db28890b77cf"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/init.md": {
+    "mtime": 1780863144.2085557,
+    "ast_hash": "c32cab48793bf3fba2510a44de26be72",
+    "semantic_hash": "c32cab48793bf3fba2510a44de26be72"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/mcp.md": {
+    "mtime": 1780863144.2085757,
+    "ast_hash": "998e075ae61c3871912e908f5a1d4223",
+    "semantic_hash": "998e075ae61c3871912e908f5a1d4223"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-deploy.md": {
+    "mtime": 1780863144.208606,
+    "ast_hash": "3b6b196e966853dac34554fa2ff0206a",
+    "semantic_hash": "3b6b196e966853dac34554fa2ff0206a"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-dev.md": {
+    "mtime": 1780863144.208606,
+    "ast_hash": "42713bfc5415977fb38abe8de12328af",
+    "semantic_hash": "42713bfc5415977fb38abe8de12328af"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-diff.md": {
+    "mtime": 1780863144.208628,
+    "ast_hash": "878c2c0e6f23d92f3be855b33e91a934",
+    "semantic_hash": "878c2c0e6f23d92f3be855b33e91a934"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-reset.md": {
+    "mtime": 1780863144.208645,
+    "ast_hash": "4beaebe72c5a8a640d6b3b5bdd18a691",
+    "semantic_hash": "4beaebe72c5a8a640d6b3b5bdd18a691"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-resolve.md": {
+    "mtime": 1780863144.208681,
+    "ast_hash": "0c25e71c2cdd45f4501b2222cb730e80",
+    "semantic_hash": "0c25e71c2cdd45f4501b2222cb730e80"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/migrate-status.md": {
+    "mtime": 1780863144.2087023,
+    "ast_hash": "005173d3c00c072444c4732ebfa9caed",
+    "semantic_hash": "005173d3c00c072444c4732ebfa9caed"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/studio.md": {
+    "mtime": 1780863144.2087023,
+    "ast_hash": "f349d102daefce8ea375ebbcb88d024c",
+    "semantic_hash": "f349d102daefce8ea375ebbcb88d024c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/prisma-cli/references/validate.md": {
+    "mtime": 1780863144.2087023,
+    "ast_hash": "da76d15f7e5c72ffe79287f9b646d744",
+    "semantic_hash": "da76d15f7e5c72ffe79287f9b646d744"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/SKILL.md": {
+    "mtime": 1780858332.3906329,
+    "ast_hash": "7ca080c0a0b0986e031fe6a47771d57e",
+    "semantic_hash": "7ca080c0a0b0986e031fe6a47771d57e"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/deep-modules.md": {
+    "mtime": 1780858332.3906329,
+    "ast_hash": "fee2c44ab025f43e10ed717bb42cc9c2",
+    "semantic_hash": "fee2c44ab025f43e10ed717bb42cc9c2"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/interface-design.md": {
+    "mtime": 1780858332.3906667,
+    "ast_hash": "fc309d957e5735a1ac3d27023842fa1b",
+    "semantic_hash": "fc309d957e5735a1ac3d27023842fa1b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/mocking.md": {
+    "mtime": 1780858332.3906667,
+    "ast_hash": "c5505e8da8f516c7dacebd01c58a4c2c",
+    "semantic_hash": "c5505e8da8f516c7dacebd01c58a4c2c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/refactoring.md": {
+    "mtime": 1780858332.3907013,
+    "ast_hash": "ecbf516d99a591169adce39a8a933f2e",
+    "semantic_hash": "ecbf516d99a591169adce39a8a933f2e"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/tdd/tests.md": {
+    "mtime": 1780858332.3907013,
+    "ast_hash": "253c991bba867959c0146c72b93a6f6f",
+    "semantic_hash": "253c991bba867959c0146c72b93a6f6f"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/.agents/skills/write-a-prd/SKILL.md": {
+    "mtime": 1780855128.4605632,
+    "ast_hash": "e02173d72bd0a0439a6117f51d519e6d",
+    "semantic_hash": "e02173d72bd0a0439a6117f51d519e6d"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/CONTEXT.md": {
+    "mtime": 1780856780.4371767,
+    "ast_hash": "45a547e775cab61d62cfb6255a810d46",
+    "semantic_hash": "45a547e775cab61d62cfb6255a810d46"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/PRD.md": {
+    "mtime": 1780857245.859468,
+    "ast_hash": "3da73d59aacf53e6cbd22e05743cb1ac",
+    "semantic_hash": "3da73d59aacf53e6cbd22e05743cb1ac"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/PROMPT.md": {
+    "mtime": 1780863400.1464548,
+    "ast_hash": "d200e5fa416d9b44579a4d6501551591",
+    "semantic_hash": "d200e5fa416d9b44579a4d6501551591"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/backend/README.md": {
+    "mtime": 1780858416.691527,
+    "ast_hash": "f9b30a57e215bc0b63868065fc71a1ac",
+    "semantic_hash": "f9b30a57e215bc0b63868065fc71a1ac"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/client-brief.md": {
+    "mtime": 1780855275.138947,
+    "ast_hash": "f5134e60eff23e0ed958a80e54de758a",
+    "semantic_hash": "f5134e60eff23e0ed958a80e54de758a"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/docs/adr/0001-dossier-profil-reutilisable.md": {
+    "mtime": 1780856957.9979625,
+    "ast_hash": "65873459fece47ce7c1dc6e827fcda00",
+    "semantic_hash": "65873459fece47ce7c1dc6e827fcda00"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/docs/adr/0002-pas-consentement-garant.md": {
+    "mtime": 1780856960.688989,
+    "ast_hash": "520a1938640a800bd2390bd108e96b12",
+    "semantic_hash": "520a1938640a800bd2390bd108e96b12"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/README.md": {
+    "mtime": 1780858454.8111248,
+    "ast_hash": "987442a8c620e4b9d478748fe65a6a46",
+    "semantic_hash": "987442a8c620e4b9d478748fe65a6a46"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/index.html": {
+    "mtime": 1780858454.8086915,
+    "ast_hash": "33bd262affcefea92f1509cda449a19c",
+    "semantic_hash": "33bd262affcefea92f1509cda449a19c"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/public/favicon.svg": {
+    "mtime": 1780858454.8090732,
+    "ast_hash": "7e840862161341271697daa99a40d76b",
+    "semantic_hash": "7e840862161341271697daa99a40d76b"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/public/icons.svg": {
+    "mtime": 1780858454.8091898,
+    "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
+    "semantic_hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/assets/hero.png": {
+    "mtime": 1780858454.8098197,
+    "ast_hash": "aead493361b27e7510691c5d7072dfc1",
+    "semantic_hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/assets/react.svg": {
+    "mtime": 1780858454.809962,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "/home/cooper/Documents/pro/ai-tranquil-loc/frontend/src/assets/vite.svg": {
+    "mtime": 1780858454.810077,
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": "9960a24288958394ac50e57ff638b036"
+  }
+}

@@ -3,19 +3,20 @@ import { NotFoundException } from '@nestjs/common';
 import { PersonneService } from './personne.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TypeLogement } from './dto/create-personne.dto';
+import { jest, expect, describe, beforeEach, it } from '@jest/globals';
 
 describe('PersonneService', () => {
   let service: PersonneService;
 
   const mockPrisma = {
-    dossier: { findUnique: jest.fn() },
-    statut: { findUnique: jest.fn() },
+    dossier: { findUnique: jest.fn<any>() },
+    statut: { findUnique: jest.fn<any>() },
     personne: {
-      create: jest.fn(),
-      findMany: jest.fn(),
-      findFirst: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
+      create: jest.fn<any>(),
+      findMany: jest.fn<any>(),
+      findFirst: jest.fn<any>(),
+      update: jest.fn<any>(),
+      delete: jest.fn<any>(),
     },
   };
 
@@ -33,7 +34,10 @@ describe('PersonneService', () => {
 
   describe('create', () => {
     it('should create a personne', async () => {
-      mockPrisma.statut.findUnique.mockResolvedValue({ id: 'statut-id', nom: 'Salarié' });
+      mockPrisma.statut.findUnique.mockResolvedValue({
+        id: 'statut-id',
+        nom: 'Salarié',
+      });
       mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
       mockPrisma.personne.create.mockResolvedValue({
         id: 'personne-id',
@@ -138,14 +142,19 @@ describe('PersonneService', () => {
   describe('update', () => {
     it('should update a personne', async () => {
       mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
-      mockPrisma.personne.findFirst.mockResolvedValue({ id: 'personne-id', dossierId: 'dossier-id' });
+      mockPrisma.personne.findFirst.mockResolvedValue({
+        id: 'personne-id',
+        dossierId: 'dossier-id',
+      });
       mockPrisma.personne.update.mockResolvedValue({
         id: 'personne-id',
         nom: 'Updated',
         statut: { nom: 'Salarié' },
       });
 
-      const result = await service.update('personne-id', 'account-id', { nom: 'Updated' });
+      const result = await service.update('personne-id', 'account-id', {
+        nom: 'Updated',
+      });
 
       expect(result.nom).toBe('Updated');
       expect(mockPrisma.personne.update).toHaveBeenCalledWith(
@@ -169,7 +178,10 @@ describe('PersonneService', () => {
   describe('remove', () => {
     it('should delete a personne', async () => {
       mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
-      mockPrisma.personne.findFirst.mockResolvedValue({ id: 'personne-id', dossierId: 'dossier-id' });
+      mockPrisma.personne.findFirst.mockResolvedValue({
+        id: 'personne-id',
+        dossierId: 'dossier-id',
+      });
 
       await service.remove('personne-id', 'account-id');
 

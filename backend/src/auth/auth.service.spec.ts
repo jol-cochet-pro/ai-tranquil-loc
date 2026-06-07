@@ -3,21 +3,28 @@ import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { PrismaService } from '../prisma/prisma.service';
+import {
+  jest,
+  expect,
+  describe,
+  beforeEach,
+  afterEach,
+  it,
+} from '@jest/globals';
+import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let prisma: PrismaService;
-  let jwtService: JwtService;
 
   const mockPrisma = {
     account: {
-      findUnique: jest.fn(),
-      create: jest.fn(),
+      findUnique: jest.fn<any>(),
+      create: jest.fn<any>(),
     },
   };
 
   const mockJwtService = {
-    sign: jest.fn().mockReturnValue('test-token'),
+    sign: jest.fn<any>().mockReturnValue('test-token'),
   };
 
   beforeEach(async () => {
@@ -30,8 +37,6 @@ describe('AuthService', () => {
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    prisma = module.get<PrismaService>(PrismaService);
-    jwtService = module.get<JwtService>(JwtService);
   });
 
   afterEach(() => {
@@ -76,7 +81,6 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('should return token for valid credentials', async () => {
-      const bcrypt = require('bcrypt');
       const hash = await bcrypt.hash('Password1', 10);
 
       mockPrisma.account.findUnique.mockResolvedValue({
@@ -95,7 +99,6 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException for wrong password', async () => {
-      const bcrypt = require('bcrypt');
       const hash = await bcrypt.hash('Password1', 10);
 
       mockPrisma.account.findUnique.mockResolvedValue({

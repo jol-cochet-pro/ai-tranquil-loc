@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -13,7 +17,9 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const existing = await this.prisma.account.findUnique({ where: { email: dto.email } });
+    const existing = await this.prisma.account.findUnique({
+      where: { email: dto.email },
+    });
     if (existing) {
       throw new ConflictException('Email already registered');
     }
@@ -32,7 +38,9 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
-    const account = await this.prisma.account.findUnique({ where: { email: dto.email } });
+    const account = await this.prisma.account.findUnique({
+      where: { email: dto.email },
+    });
     if (!account) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -55,7 +63,10 @@ export class AuthService {
 
   private generateToken(account: { id: string; email: string }) {
     return {
-      accessToken: this.jwtService.sign({ sub: account.id, email: account.email }),
+      accessToken: this.jwtService.sign({
+        sub: account.id,
+        email: account.email,
+      }),
       account: { id: account.id, email: account.email },
     };
   }

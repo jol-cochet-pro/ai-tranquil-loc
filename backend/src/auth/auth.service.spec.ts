@@ -48,7 +48,10 @@ describe('AuthService', () => {
         dossier: { id: 'dossier-id' },
       });
 
-      const result = await service.register({ email: 'test@test.com', password: 'Password1' });
+      const result = await service.register({
+        email: 'test@test.com',
+        password: 'Password1',
+      });
 
       expect(result.accessToken).toBe('test-token');
       expect(result.account.email).toBe('test@test.com');
@@ -82,7 +85,10 @@ describe('AuthService', () => {
         passwordHash: hash,
       });
 
-      const result = await service.login({ email: 'test@test.com', password: 'Password1' });
+      const result = await service.login({
+        email: 'test@test.com',
+        password: 'Password1',
+      });
 
       expect(result.accessToken).toBe('test-token');
       expect(result.account.email).toBe('test@test.com');

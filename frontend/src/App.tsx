@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Dashboard } from './pages/Dashboard';
+import { DossierBuilder } from './pages/DossierBuilder';
 import { ProtectedRoute } from './pages/ProtectedRoute';
 
 function App() {
@@ -17,6 +18,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dossier"
+            element={
+              <ProtectedRoute>
+                <DossierBuilder />
               </ProtectedRoute>
             }
           />

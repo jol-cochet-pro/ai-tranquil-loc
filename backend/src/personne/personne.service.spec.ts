@@ -3,19 +3,20 @@ import { NotFoundException } from '@nestjs/common';
 import { PersonneService } from './personne.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TypeLogement } from './dto/create-personne.dto';
+import { jest, expect, describe, beforeEach, it } from '@jest/globals';
 
 describe('PersonneService', () => {
   let service: PersonneService;
 
   const mockPrisma = {
-    dossier: { findUnique: jest.fn() },
-    statut: { findUnique: jest.fn() },
+    dossier: { findUnique: jest.fn<any>() },
+    statut: { findUnique: jest.fn<any>() },
     personne: {
-      create: jest.fn(),
-      findMany: jest.fn(),
-      findFirst: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
+      create: jest.fn<any>(),
+      findMany: jest.fn<any>(),
+      findFirst: jest.fn<any>(),
+      update: jest.fn<any>(),
+      delete: jest.fn<any>(),
     },
   };
 

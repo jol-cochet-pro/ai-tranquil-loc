@@ -38,7 +38,7 @@ Before committing, run the feedback loops in the backend and the frontend:
 
 - `npm run test` to run the tests
 - `npm run typecheck` to run the type checker
-- `npm run lint` to run the linter (make sure everything is fixed before pushing)
+- `npm run lint` to run the linter (make sure everything is fixed before validating)
 
 # COMMIT
 

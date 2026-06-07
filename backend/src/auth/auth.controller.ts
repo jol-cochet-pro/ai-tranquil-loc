@@ -20,7 +20,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  me(@Req() req: any) {
+  me(@Req() req: { user: { sub: string } }) {
     return this.authService.me(req.user.sub);
   }
 }

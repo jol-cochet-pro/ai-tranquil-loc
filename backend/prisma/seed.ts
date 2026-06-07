@@ -80,6 +80,11 @@ async function main() {
       update: {},
       create: { id: 'doc-attestation-hebergement', nom: "Attestation d'hébergement" },
     }),
+    prisma.documentType.upsert({
+      where: { nom: 'Autre' },
+      update: {},
+      create: { id: 'doc-autre', nom: 'Autre' },
+    }),
   ]);
 
   const mapping: Record<string, string[]> = {

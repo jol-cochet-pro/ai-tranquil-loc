@@ -60,6 +60,24 @@ model Personne {
   statut    Statut    @relation(fields: [statutId], references: [id])
   dossierId String
   dossier   Dossier   @relation(fields: [dossierId], references: [id])
+
+  documents Document[]
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  nom       String
+  nomFichier String
+  chemin     String
+  mimeType   String
+  taille     Int
+  typeDocumentId           String
+  typeDocument             DocumentType @relation(fields: [typeDocumentId], references: [id])
+  typeDocumentPersonnalise String?
+  personneId String
+  personne   Personne @relation(fields: [personneId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Statut {
@@ -79,6 +97,7 @@ model DocumentType {
   updatedAt DateTime @updatedAt
 
   statutDocumentTypes StatutDocumentType[]
+  documents           Document[]
 }
 
 model StatutDocumentType {

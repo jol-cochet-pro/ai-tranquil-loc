@@ -4,6 +4,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Dashboard } from './pages/Dashboard';
 import { DossierBuilder } from './pages/DossierBuilder';
+import { PersonView } from './pages/PersonView';
 import { ProtectedRoute } from './pages/ProtectedRoute';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/invitation/:token" element={<PersonView />} />
           <Route
             path="/dashboard"
             element={

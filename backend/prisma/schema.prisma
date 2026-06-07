@@ -12,6 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+enum TypeLogement {
+  locataire
+  proprietaire
+  heberge
+}
+
+enum StatutInvitation {
+  pending
+  viewed
+  completed
+}
+
 model Account {
   id           String   @id @default(uuid())
   email        String   @unique
@@ -29,4 +41,51 @@ model Dossier {
 
   accountId String  @unique
   account   Account @relation(fields: [accountId], references: [id])
+
+  personnes Personne[]
+}
+
+model Personne {
+  id           String       @id @default(uuid())
+  nom          String
+  prenom       String
+  email        String?
+  telephone    String?
+  revenus      Int?
+  typeLogement TypeLogement
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  statutId  String
+  statut    Statut    @relation(fields: [statutId], references: [id])
+  dossierId String
+  dossier   Dossier   @relation(fields: [dossierId], references: [id])
+}
+
+model Statut {
+  id        String   @id @default(uuid())
+  nom       String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  personnes               Personne[]
+  statutDocumentTypes StatutDocumentType[]
+}
+
+model DocumentType {
+  id        String   @id @default(uuid())
+  nom       String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  statutDocumentTypes StatutDocumentType[]
+}
+
+model StatutDocumentType {
+  statutId       String
+  documentTypeId String
+  statut         Statut       @relation(fields: [statutId], references: [id])
+  documentType   DocumentType @relation(fields: [documentTypeId], references: [id])
+
+  @@id([statutId, documentTypeId])
 }

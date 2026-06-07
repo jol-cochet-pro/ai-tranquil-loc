@@ -21,6 +21,13 @@ export function Dashboard() {
       </header>
       <main>
         <p>Bienvenue sur votre tableau de bord.</p>
+
+        <div className="quick-actions">
+          <button onClick={() => navigate('/dossier')} className="card-action">
+            <h3>Gestion des personnes</h3>
+            <p>Ajouter, modifier ou supprimer les personnes du dossier</p>
+          </button>
+        </div>
       </main>
     </div>
   );

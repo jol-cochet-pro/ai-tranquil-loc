@@ -30,7 +30,7 @@ Explore the repo.
 
 # IMPLEMENTATION
 
-YOU HAVE TO USE /tdd to complete the task.
+YOU MUST USE /tdd skill to complete the task.
 
 # FEEDBACK LOOPS
 

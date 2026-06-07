@@ -109,3 +109,317 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* Auth pages */
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80svh;
+  gap: 16px;
+}
+
+.auth-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.auth-page label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.auth-page input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.auth-page button {
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.auth-page button:hover {
+  opacity: 0.9;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.hint {
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* Dashboard */
+.dashboard {
+  text-align: left;
+  padding: 0 24px;
+}
+
+.dashboard header,
+.dossier-builder header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard h1,
+.dossier-builder h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.card-action {
+  flex: 1;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  cursor: pointer;
+  text-align: left;
+}
+
+.card-action:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.card-action h3 {
+  margin: 0 0 8px;
+  color: var(--text-h);
+}
+
+.card-action p {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+}
+
+.nav-links button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-links button.active {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* DossierBuilder */
+.dossier-builder {
+  text-align: left;
+  padding: 0 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+.btn-primary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-danger {
+  color: #dc2626;
+}
+
+.empty-state {
+  color: var(--text);
+  font-size: 14px;
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.personnes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.personne-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.personne-card:hover {
+  border-color: var(--accent-border);
+}
+
+.personne-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.personne-info strong {
+  font-size: 16px;
+  color: var(--text-h);
+}
+
+.statut-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 12px;
+  width: fit-content;
+}
+
+.type-logement {
+  font-size: 12px;
+  color: var(--text);
+}
+
+.personne-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.personne-actions button {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Form section */
+.form-section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.form-section h2 {
+  margin: 0 0 16px;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.form-row input,
+.form-row select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  background: var(--bg);
+}
+
+.documents-requis {
+  padding: 16px;
+  background: var(--code-bg);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.documents-requis h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.documents-requis ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.documents-requis li {
+  margin-bottom: 4px;
+}

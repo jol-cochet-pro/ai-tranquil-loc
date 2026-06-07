@@ -4,7 +4,7 @@ Local issues from github are provided at start of context. Parse them to underst
 
 You need to get the `git log` to understand what work has been done.
 
-If all AFK tasks are complete, output <promise>NO MORE TASKS</promise>.
+You need to create a new branch for each issue your will work on.
 
 # TASK SELECTION
 
@@ -30,7 +30,7 @@ Explore the repo.
 
 # IMPLEMENTATION
 
-Use /tdd to complete the task.
+YOU HAVE TO USE /tdd to complete the task.
 
 # FEEDBACK LOOPS
 
@@ -38,10 +38,11 @@ Before committing, run the feedback loops in the backend and the frontend:
 
 - `npm run test` to run the tests
 - `npm run typecheck` to run the type checker
+- `npm run lint` to run the linter
 
 # COMMIT
 
-Make a git commit. The commit message must:
+Make a git commit everytime you make an important part of the issue. The commit message must:
 
 1. Include key decisions made
 2. Include files changed
@@ -49,9 +50,7 @@ Make a git commit. The commit message must:
 
 # THE ISSUE
 
-If the task is complete, move the issue file to `issues/done/`.
-
-If the task is not complete, add a note to the issue file with what was done.
+At the end of your work, you need to create a merge request with a detailed description of what you've done through the issue.
 
 # FINAL RULES
 

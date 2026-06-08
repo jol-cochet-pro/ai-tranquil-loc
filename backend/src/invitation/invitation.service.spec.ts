@@ -19,6 +19,16 @@ describe('InvitationService', () => {
     documentType: {
       findMany: jest.fn<any>(),
     },
+    statut: {
+      findMany: jest.fn<any>(),
+    },
+    statutDocumentType: {
+      findMany: jest.fn<any>(),
+    },
+    document: {
+      findFirst: jest.fn<any>(),
+      delete: jest.fn<any>(),
+    },
   };
 
   beforeEach(async () => {
@@ -89,6 +99,7 @@ describe('InvitationService', () => {
           email: 'jean@test.com',
           telephone: '0102030405',
           revenus: 2500,
+          statutId: 'statut-id',
           typeLogement: 'locataire',
           statut: { id: 'statut-id', nom: 'Salarié' },
         },
@@ -96,7 +107,16 @@ describe('InvitationService', () => {
         updatedAt: new Date(),
       });
       mockPrisma.documentType.findMany.mockResolvedValue([
-        { id: 'dt1', nom: 'Pièce d\'identité' },
+        { id: 'dt1', nom: "Pièce d'identité" },
+      ]);
+      mockPrisma.statut.findMany.mockResolvedValue([
+        { id: 'statut-id', nom: 'Salarié' },
+      ]);
+      mockPrisma.statutDocumentType.findMany.mockResolvedValue([
+        {
+          statutId: 'statut-id',
+          documentType: { id: 'dt1', nom: "Pièce d'identité" },
+        },
       ]);
 
       const result = await service.findByToken('valid-token');
@@ -105,6 +125,10 @@ describe('InvitationService', () => {
       expect(result.personne.nom).toBe('Dupont');
       expect(result.personne.statut.nom).toBe('Salarié');
       expect(result.documentTypes).toHaveLength(1);
+      expect(result.statuts).toHaveLength(1);
+      expect(result.documentsByStatut).toEqual({
+        'statut-id': [{ id: 'dt1', nom: "Pièce d'identité" }],
+      });
     });
 
     it('should throw NotFoundException for invalid token', async () => {
@@ -196,6 +220,54 @@ describe('InvitationService', () => {
           },
         }),
       );
+    });
+  });
+
+  describe('deleteDocument', () => {
+    it('should delete a document associated with the invitation token', async () => {
+      mockPrisma.invitation.findUnique.mockResolvedValue({
+        id: 'invitation-id',
+        token: 'valid-token',
+        statut: 'pending',
+        personneId: 'personne-id',
+      });
+      mockPrisma.document.findFirst.mockResolvedValue({
+        id: 'doc-1',
+        chemin: 'some/path',
+        personneId: 'personne-id',
+      });
+      mockPrisma.document.delete.mockResolvedValue({
+        id: 'doc-1',
+        chemin: 'some/path',
+      });
+
+      const result = await service.deleteDocument('valid-token', 'doc-1');
+
+      expect(result.id).toBe('doc-1');
+      expect(mockPrisma.document.delete).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { id: 'doc-1' } }),
+      );
+    });
+
+    it('should throw NotFoundException for invalid token', async () => {
+      mockPrisma.invitation.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.deleteDocument('invalid-token', 'doc-1'),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should throw NotFoundException if document not found', async () => {
+      mockPrisma.invitation.findUnique.mockResolvedValue({
+        id: 'invitation-id',
+        token: 'valid-token',
+        personneId: 'personne-id',
+      });
+      mockPrisma.document.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.deleteDocument('valid-token', 'doc-1'),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

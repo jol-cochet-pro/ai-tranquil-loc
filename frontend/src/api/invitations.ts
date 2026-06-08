@@ -1,25 +1,31 @@
 import { apiClient, publicClient } from "./client";
 import type { Document } from "./documents";
-import type { DocumentType } from "./configuration";
+import type { DocumentType, Statut } from "./configuration";
 
 export type StatutInvitation = "pending" | "viewed" | "completed";
+
+export interface InvitationPersonne {
+  id: string;
+  nom: string;
+  prenom: string;
+  email: string | null;
+  telephone: string | null;
+  revenus: number | null;
+  role: "candidat" | "co_candidat" | "garant";
+  statutId: string;
+  typeLogement: "locataire" | "proprietaire" | "heberge";
+  statut: { id: string; nom: string };
+}
 
 export interface Invitation {
   id: string;
   token: string;
   statut: StatutInvitation;
   personneId: string;
-  personne: {
-    id: string;
-    nom: string;
-    prenom: string;
-    email: string | null;
-    telephone: string | null;
-    revenus: number | null;
-    typeLogement: "locataire" | "proprietaire" | "heberge";
-    statut: { id: string; nom: string };
-  };
+  personne: InvitationPersonne;
   documentTypes: DocumentType[];
+  statuts: Statut[];
+  documentsByStatut: Record<string, DocumentType[]>;
   createdAt: string;
   updatedAt: string;
 }
@@ -43,6 +49,9 @@ export const invitationsApi = {
       prenom?: string;
       email?: string;
       telephone?: string;
+      statutId?: string;
+      typeLogement?: string;
+      revenus?: number;
     },
   ) =>
     publicClient
@@ -77,4 +86,7 @@ export const invitationsApi = {
 
   getDocumentDownloadUrl: (token: string, documentId: string) =>
     `/invitations/${token}/documents/${documentId}/download`,
+
+  deleteDocumentByToken: (token: string, documentId: string) =>
+    publicClient.delete(`/invitations/${token}/documents/${documentId}`).then((r) => r.data),
 };

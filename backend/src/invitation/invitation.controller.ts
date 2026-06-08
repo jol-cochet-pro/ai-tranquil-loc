@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Put,
+  Delete,
   Param,
   Body,
   UseGuards,
@@ -60,6 +61,9 @@ export class InvitationController {
       prenom?: string;
       email?: string;
       telephone?: string;
+      statutId?: string;
+      typeLogement?: string;
+      revenus?: number;
     },
   ) {
     return this.invitationService.updateByToken(token, data);
@@ -126,5 +130,21 @@ export class InvitationController {
     );
     const stream = fs.createReadStream(filePath);
     stream.pipe(res);
+  }
+
+  @Delete('invitations/:token/documents/:docId')
+  async deleteDocument(
+    @Param('token') token: string,
+    @Param('docId') docId: string,
+  ) {
+    const doc = await this.invitationService.deleteDocument(token, docId);
+
+    const uploadDir = process.env.UPLOAD_DIR || './uploads';
+    const filePath = path.join(uploadDir, doc.chemin);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    return { deleted: true };
   }
 }

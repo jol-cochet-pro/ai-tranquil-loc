@@ -50,18 +50,51 @@ export class InvitationService {
     }
 
     const documentTypes = await this.prisma.documentType.findMany({
+      where: {
+        statutDocumentTypes: {
+          some: { statutId: invitation.personne.statutId },
+        },
+      },
       orderBy: { nom: 'asc' },
     });
+
+    const statuts = await this.prisma.statut.findMany({
+      orderBy: { nom: 'asc' },
+    });
+
+    const allStatutDocs = await this.prisma.statutDocumentType.findMany({
+      include: {
+        documentType: { select: { id: true, nom: true } },
+      },
+    });
+
+    const documentsByStatut: Record<string, { id: string; nom: string }[]> = {};
+    for (const row of allStatutDocs) {
+      if (!documentsByStatut[row.statutId]) {
+        documentsByStatut[row.statutId] = [];
+      }
+      documentsByStatut[row.statutId].push(row.documentType);
+    }
 
     return {
       ...invitation,
       documentTypes,
+      statuts,
+      documentsByStatut,
     };
   }
 
   async updateByToken(
     token: string,
-    data: { nom?: string; prenom?: string; email?: string; telephone?: string },
+    data: {
+      nom?: string;
+      prenom?: string;
+      email?: string;
+      telephone?: string;
+      statutId?: string;
+      typeLogement?: string;
+      revenus?: number;
+    },
   ) {
     const invitation = await this.prisma.invitation.findUnique({
       where: { token },
@@ -71,9 +104,19 @@ export class InvitationService {
       throw new NotFoundException('Invitation not found');
     }
 
+    const updateData: Record<string, unknown> = {};
+    if (data.nom !== undefined) updateData.nom = data.nom;
+    if (data.prenom !== undefined) updateData.prenom = data.prenom;
+    if (data.email !== undefined) updateData.email = data.email;
+    if (data.telephone !== undefined) updateData.telephone = data.telephone;
+    if (data.statutId !== undefined) updateData.statutId = data.statutId;
+    if (data.typeLogement !== undefined)
+      updateData.typeLogement = data.typeLogement;
+    if (data.revenus !== undefined) updateData.revenus = data.revenus;
+
     await this.prisma.personne.update({
       where: { id: invitation.personneId },
-      data,
+      data: updateData,
     });
 
     return this.prisma.invitation.update({
@@ -94,6 +137,26 @@ export class InvitationService {
       },
       orderBy: { createdAt: 'desc' },
     });
+  }
+
+  async deleteDocument(token: string, documentId: string) {
+    const invitation = await this.prisma.invitation.findUnique({
+      where: { token },
+    });
+
+    if (!invitation) {
+      throw new NotFoundException('Invitation not found');
+    }
+
+    const doc = await this.prisma.document.findFirst({
+      where: { id: documentId, personneId: invitation.personneId },
+    });
+
+    if (!doc) {
+      throw new NotFoundException('Document not found');
+    }
+
+    return this.prisma.document.delete({ where: { id: documentId } });
   }
 
   async markAsViewed(token: string) {

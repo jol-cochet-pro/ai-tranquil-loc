@@ -24,8 +24,12 @@ _Avoid_ : Futur locataire, colocataire
 Fichier (PDF, image) associé à un type de pièce justificative et à une personne (candidat, garant ou co-candidat).
 _Avoid_ : Fichier, pièce
 
+**Rôle**:
+Qualité d'une personne dans le dossier : `candidat`, `co_candidat` ou `garant`. Le candidat est le titulaire du dossier. Le co-candidat postule avec lui. Le garant s'engage financièrement.
+_Avoid_ : Type de personne, catégorie
+
 **Personne**:
-Individu associé à un dossier — candidat locataire, garant ou co-candidat. Chaque personne a un nom, prénom, email, téléphone, revenus, un statut (Étudiant, Salarié...), un type de logement (locataire, propriétaire, hébergé) et une collection de documents.
+Individu associé à un dossier, caractérisé par un **rôle** (candidat, co-candidat ou garant). Chaque personne a un nom, prénom, email, téléphone, revenus, un statut (Étudiant, Salarié...), un type de logement (locataire, propriétaire, hébergé) et une collection de documents.
 _Avoid_ : Utilisateur, membre, compte
 
 **Invitation**:

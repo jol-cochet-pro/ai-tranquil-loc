@@ -7,6 +7,7 @@ import { PersonView } from './pages/PersonView';
 import { ProtectedRoute } from './pages/ProtectedRoute';
 import { AppLayout } from './components/AppLayout';
 import { PersonListPage } from './pages/PersonListPage';
+import { CreatePersonnePage } from './pages/CreatePersonnePage';
 import { Settings } from './pages/Settings';
 import { TransmissionList } from './pages/TransmissionList';
 
@@ -36,10 +37,42 @@ function App() {
               }
             />
             <Route
+              path="/candidats/creer"
+              element={
+                <ProtectedRoute>
+                  <CreatePersonnePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/candidats/:personneId"
+              element={
+                <ProtectedRoute>
+                  <CreatePersonnePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/garants"
               element={
                 <ProtectedRoute>
                   <PersonListPage role="garant" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/garants/creer"
+              element={
+                <ProtectedRoute>
+                  <CreatePersonnePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/garants/:personneId"
+              element={
+                <ProtectedRoute>
+                  <CreatePersonnePage />
                 </ProtectedRoute>
               }
             />

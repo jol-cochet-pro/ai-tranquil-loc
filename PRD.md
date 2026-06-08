@@ -10,6 +10,8 @@ Une web app qui permet aux candidats locataires de constituer un dossier documen
 
 ## User Stories
 
+23. En tant que **candidat locataire**, je veux une interface agréable avec une ambiance "zen" (fonds bleu ciel, skyline de ville), afin d'avoir une expérience rassurante et plaisante lors de la constitution de mon dossier.
+
 1. En tant que **candidat locataire**, je veux créer un compte, afin d'avoir mon propre dossier locatif.
 
 2. En tant que **candidat locataire**, je veux renseigner mes informations personnelles (nom, prénom, email, téléphone, revenus, statut, type de logement), afin de compléter mon profil.
@@ -61,7 +63,7 @@ Une web app qui permet aux candidats locataires de constituer un dossier documen
 - **Backend** : NestJS (TypeScript) — structure modulaire, décorateurs, validation, idéal pour une API REST.
 - **ORM** : Prisma — schéma déclaratif, migrations, type-safety, intégration naturelle avec NestJS.
 - **Base de données** : PostgreSQL.
-- **Frontend** : React 18 + Vite + TypeScript.
+- **Frontend** : React 19 + Vite + TypeScript + Tailwind CSS + shadcn/ui.
 - **Stockage fichiers** : AWS S3 (ou compatible, ex. MinIO en dev). Les fichiers uploadés sont stockés et servis depuis S3. Le renommage se fait côté backend avant l'upload (copie avec le bon nom).
 
 ### Modules backend
@@ -80,13 +82,22 @@ Une web app qui permet aux candidats locataires de constituer un dossier documen
 
 | Module | Rôle |
 |--------|------|
-| **AuthPages** | Inscription, connexion |
-| **Dashboard** | Vue d'ensemble : progression, garants, co-candidats, transmissions |
-| **DossierBuilder** | Gestion des personnes + upload de leurs documents (pages combinées) |
+| **CitySkyline** | Composant SVG de skyline de ville, fixed en bas de page avec effet de fondu |
+| **AuthPages** | Inscription, connexion (restyle avec ambiance bleue + skyline) |
+| **Dashboard** | Vue d'ensemble : progression, garants, co-candidats, transmissions (restyle shadcn/ui) |
+| **DossierBuilder** | Gestion des personnes + upload de leurs documents (restyle shadcn/ui) |
 | **InvitationManager** | Création/suivi des invitations |
-| **TransmissionBuilder** | Création de lien, sélection documents, durée, révocation |
-| **PersonView** | Page sécurisée par token pour garant/co-candidat |
-| **TransmissionView** | Page sécurisée par token pour propriétaire/agence |
+| **TransmissionBuilder** | Création de lien, sélection documents, durée, révocation (restyle shadcn/ui) |
+| **PersonView** | Page sécurisée par token pour garant/co-candidat (restyle shadcn/ui) |
+| **TransmissionView** | Page sécurisée par token pour propriétaire/agence (restyle shadcn/ui) |
+
+### Design system
+
+- **Palette** : fond `#F4F9FD`, accent `#0B73E6`, accent doux `#ADD1F5`, texte `#324546`, cartes blanches opaques.
+- **Skyline** : SVG `building.svg` en `fixed bottom-0` avec dégradé `transparent → #F4F9FD` par-dessus pour fondre l'illustration.
+- **Mise en page** : full-width, contenu centré dans un max-w container.
+- **Mode clair uniquement** — l'ambiance zen bleue ne se transpose pas en dark mode.
+- **Composants shadcn/ui utilisés** : Button, Input, Label, Select, Card, Badge, Sheet, Tabs, Table, Toast, Skeleton.
 
 ### Sécurité
 

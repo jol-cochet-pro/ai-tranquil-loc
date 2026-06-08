@@ -61,7 +61,19 @@ model Personne {
   dossierId String
   dossier   Dossier   @relation(fields: [dossierId], references: [id])
 
-  documents Document[]
+  documents   Document[]
+  invitations Invitation[]
+}
+
+model Invitation {
+  id         String          @id @default(uuid())
+  token      String          @unique
+  statut     StatutInvitation @default(pending)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  personneId String
+  personne   Personne @relation(fields: [personneId], references: [id])
 }
 
 model Document {

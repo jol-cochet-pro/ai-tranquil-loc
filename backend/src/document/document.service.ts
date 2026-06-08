@@ -175,4 +175,90 @@ export class DocumentService {
 
     return doc;
   }
+
+  async getDocumentByPersonne(documentId: string, personneId: string) {
+    const doc = await this.prisma.document.findFirst({
+      where: { id: documentId, personneId },
+    });
+    if (!doc) {
+      throw new NotFoundException('Document not found');
+    }
+    return doc;
+  }
+
+  async findAllForPersonneByPersonneId(personneId: string) {
+    return this.prisma.document.findMany({
+      where: { personneId },
+      include: { typeDocument: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async uploadForPersonne(
+    personneId: string,
+    file: Express.Multer.File,
+    typeDocumentId: string,
+    typeDocumentPersonnalise?: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('No file provided');
+    }
+
+    if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
+      throw new BadRequestException(
+        `Invalid file type: ${file.mimetype}. Allowed: ${ALLOWED_MIME_TYPES.join(', ')}`,
+      );
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      throw new BadRequestException(
+        `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024} MB`,
+      );
+    }
+
+    const personne = await this.prisma.personne.findUnique({
+      where: { id: personneId },
+    });
+    if (!personne) {
+      throw new NotFoundException('Personne not found');
+    }
+
+    const typeDoc = await this.prisma.documentType.findUnique({
+      where: { id: typeDocumentId },
+    });
+    if (!typeDoc) {
+      throw new NotFoundException('Document type not found');
+    }
+
+    if (typeDoc.nom === 'Autre' && !typeDocumentPersonnalise) {
+      throw new BadRequestException(
+        'Custom document name required for type "Autre"',
+      );
+    }
+
+    const ext = extname(file.originalname);
+    const nomFichier = this.buildFilename(
+      personne.prenom,
+      personne.nom,
+      typeDoc.nom,
+      typeDocumentPersonnalise,
+      ext,
+    );
+
+    const stored = await this.storage.store(file.buffer, nomFichier);
+
+    return this.prisma.document.create({
+      data: {
+        nom: file.originalname,
+        nomFichier,
+        chemin: stored.chemin,
+        mimeType: file.mimetype,
+        taille: file.size,
+        typeDocumentId,
+        typeDocumentPersonnalise,
+        personneId,
+      },
+      include: { typeDocument: true },
+    });
+  }
 }

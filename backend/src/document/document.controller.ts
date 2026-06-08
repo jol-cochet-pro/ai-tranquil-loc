@@ -9,13 +9,11 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-  Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DocumentService } from './document.service';
 import { StorageService } from './storage.service';
-import { Response } from 'express';
 
 @Controller('dossier')
 @UseGuards(JwtAuthGuard)
@@ -65,19 +63,13 @@ export class DocumentController {
     return this.documentService.remove(docId, req.user.sub);
   }
 
-  @Get('documents/:id/download')
-  async download(
+  @Get('documents/:id/download-url')
+  async getDownloadUrl(
     @Req() req: { user: { sub: string } },
     @Param('id') id: string,
-    @Res() res: Response,
   ) {
     const doc = await this.documentService.getDocument(id, req.user.sub);
-    const stream = await this.storage.readStream(doc.chemin);
-    res.setHeader('Content-Type', doc.mimeType);
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="${doc.nomFichier}"`,
-    );
-    stream.pipe(res);
+    const url = await this.storage.getPresignedUrl(doc.chemin, doc.nomFichier);
+    return { url };
   }
 }

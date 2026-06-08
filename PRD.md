@@ -62,7 +62,7 @@ Une web app qui permet aux candidats locataires de constituer un dossier documen
 - **ORM** : Prisma — schéma déclaratif, migrations, type-safety, intégration naturelle avec NestJS.
 - **Base de données** : PostgreSQL.
 - **Frontend** : React 18 + Vite + TypeScript.
-- **Stockage fichiers** : AWS S3 (ou compatible, ex. MinIO en dev). Les fichiers uploadés sont stockés et servis depuis S3. Le renommage se fait côté backend avant l'upload (copie avec le bon nom).
+- **Stockage fichiers** : AWS S3 (ou compatible, ex. MinIO en dev). Les fichiers uploadés sont stockés dans S3 et servis via des presigned URLs (5 min d'expiration). Le renommage se fait côté backend avant l'upload. Le backend ne sert pas les fichiers directement — les URLs signées sont générées à la demande.
 
 ### Modules backend
 
@@ -93,7 +93,7 @@ Une web app qui permet aux candidats locataires de constituer un dossier documen
 - Toutes les pages d'invitation et transmission sont sécurisées par un token unique (UUID v4) dans l'URL.
 - Les transmissions expirées ou révoquées retournent une erreur 403/410.
 - L'authentification du candidat se fait par JWT.
-- Les fichiers en S3 ont des URLs signées ou sont servis via le backend avec vérification d'accès.
+- Les fichiers en S3 sont servis via des presigned URLs (expiration 5 min) générées à la demande. Le backend ne proxy pas les fichiers.
 
 ### Modèle de données (conceptuel)
 

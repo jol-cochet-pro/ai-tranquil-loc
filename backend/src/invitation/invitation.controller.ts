@@ -10,14 +10,12 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-  Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { InvitationService } from './invitation.service';
 import { DocumentService } from '../document/document.service';
 import { StorageService } from '../document/storage.service';
-import { Response } from 'express';
 
 @Controller()
 export class InvitationController {
@@ -100,11 +98,10 @@ export class InvitationController {
     );
   }
 
-  @Get('invitations/:token/documents/:docId/download')
-  async downloadDocument(
+  @Get('invitations/:token/documents/:docId/download-url')
+  async getDocumentDownloadUrl(
     @Param('token') token: string,
     @Param('docId') docId: string,
-    @Res() res: Response,
   ) {
     const invitation = await this.invitationService.findByToken(token);
     const doc = await this.documentService.getDocumentByPersonne(
@@ -112,12 +109,7 @@ export class InvitationController {
       invitation.personneId,
     );
 
-    const stream = await this.storage.readStream(doc.chemin);
-    res.setHeader('Content-Type', doc.mimeType);
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="${doc.nomFichier}"`,
-    );
-    stream.pipe(res);
+    const url = await this.storage.getPresignedUrl(doc.chemin, doc.nomFichier);
+    return { url };
   }
 }

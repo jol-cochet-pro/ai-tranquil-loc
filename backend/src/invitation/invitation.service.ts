@@ -49,7 +49,14 @@ export class InvitationService {
       throw new NotFoundException('Invitation not found');
     }
 
-    return invitation;
+    const documentTypes = await this.prisma.documentType.findMany({
+      orderBy: { nom: 'asc' },
+    });
+
+    return {
+      ...invitation,
+      documentTypes,
+    };
   }
 
   async updateByToken(

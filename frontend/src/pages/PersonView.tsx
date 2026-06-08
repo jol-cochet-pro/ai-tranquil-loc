@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect, useCallback, useRef } from "react";
 import QRCode from "qrcode";
 import { invitationsApi, type Invitation } from "../api/invitations";
-import { configurationApi, type DocumentType } from "../api/configuration";
+import type { DocumentType } from "../api/configuration";
 import type { Document } from "../api/documents";
 import { formatTaille, downloadBlob } from "./utils";
 
@@ -35,11 +35,10 @@ export function PersonView() {
         setPrenom(inv.personne.prenom);
         setEmail(inv.personne.email ?? "");
         setTelephone(inv.personne.telephone ?? "");
+        setDocumentTypes(inv.documentTypes);
       })
       .catch(() => setError("Lien d'invitation invalide ou expiré"))
       .finally(() => setLoading(false));
-
-    configurationApi.documentTypes().then(setDocumentTypes).catch(() => {});
   }, [token]);
 
   const loadDocuments = useCallback(() => {

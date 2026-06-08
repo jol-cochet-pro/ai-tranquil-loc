@@ -1,5 +1,6 @@
-import { apiClient } from "./client";
+import { apiClient, publicClient } from "./client";
 import type { Document } from "./documents";
+import type { DocumentType } from "./configuration";
 
 export type StatutInvitation = "pending" | "viewed" | "completed";
 
@@ -18,6 +19,7 @@ export interface Invitation {
     typeLogement: "locataire" | "proprietaire" | "heberge";
     statut: { id: string; nom: string };
   };
+  documentTypes: DocumentType[];
   createdAt: string;
   updatedAt: string;
 }
@@ -32,7 +34,7 @@ export const invitationsApi = {
     apiClient.get<Invitation[]>("/dossier/invitations").then((r) => r.data),
 
   getByToken: (token: string) =>
-    apiClient.get<Invitation>(`/invitations/${token}`).then((r) => r.data),
+    publicClient.get<Invitation>(`/invitations/${token}`).then((r) => r.data),
 
   updateByToken: (
     token: string,
@@ -43,12 +45,12 @@ export const invitationsApi = {
       telephone?: string;
     },
   ) =>
-    apiClient
+    publicClient
       .put<Invitation>(`/invitations/${token}`, data)
       .then((r) => r.data),
 
   listDocumentsByToken: (token: string) =>
-    apiClient
+    publicClient
       .get<Document[]>(`/invitations/${token}/documents`)
       .then((r) => r.data),
 
@@ -64,7 +66,7 @@ export const invitationsApi = {
     if (typeDocumentPersonnalise) {
       formData.append("typeDocumentPersonnalise", typeDocumentPersonnalise);
     }
-    return apiClient
+    return publicClient
       .post<Document>(
         `/invitations/${token}/documents`,
         formData,

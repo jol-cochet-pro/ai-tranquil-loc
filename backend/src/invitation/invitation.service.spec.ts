@@ -16,6 +16,9 @@ describe('InvitationService', () => {
       findMany: jest.fn<any>(),
       update: jest.fn<any>(),
     },
+    documentType: {
+      findMany: jest.fn<any>(),
+    },
   };
 
   beforeEach(async () => {
@@ -92,12 +95,16 @@ describe('InvitationService', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+      mockPrisma.documentType.findMany.mockResolvedValue([
+        { id: 'dt1', nom: 'Pièce d\'identité' },
+      ]);
 
       const result = await service.findByToken('valid-token');
 
       expect(result.token).toBe('valid-token');
       expect(result.personne.nom).toBe('Dupont');
       expect(result.personne.statut.nom).toBe('Salarié');
+      expect(result.documentTypes).toHaveLength(1);
     });
 
     it('should throw NotFoundException for invalid token', async () => {

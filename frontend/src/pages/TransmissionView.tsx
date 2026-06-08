@@ -1,12 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { transmissionsApi, type TransmissionPublic } from '../api/transmissions';
-
-function formatTaille(bytes: number): string {
-  if (bytes < 1024) return `${bytes} o`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
-}
+import { formatTaille, downloadBlob } from './utils';
 
 export function TransmissionView() {
   const { token } = useParams<{ token: string }>();
@@ -36,14 +31,15 @@ export function TransmissionView() {
       .finally(() => setLoading(false));
   }, [token]);
 
-  const handleDownload = (docId: string, filename: string) => {
-    const url = transmissionsApi.getDocumentDownloadUrl(token!, docId);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const handleDownload = async (docId: string, filename: string) => {
+    try {
+      const url = transmissionsApi.getDocumentDownloadUrl(token!, docId);
+      const response = await fetch(url);
+      const blob = await response.blob();
+      downloadBlob(blob, filename);
+    } catch {
+      setError('Erreur lors du téléchargement');
+    }
   };
 
   if (loading) {

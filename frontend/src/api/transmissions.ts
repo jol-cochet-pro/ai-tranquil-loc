@@ -66,5 +66,5 @@ export const transmissionsApi = {
       .then((r) => r.data),
 
   getDocumentDownloadUrl: (token: string, documentId: string) =>
-    `/transmissions/${token}/documents/${documentId}/download`,
+    `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/transmissions/${token}/documents/${documentId}/download`,
 };

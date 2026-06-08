@@ -20,6 +20,7 @@ describe('AuthService', () => {
     account: {
       findUnique: jest.fn<any>(),
       create: jest.fn<any>(),
+      update: jest.fn<any>(),
     },
     statut: {
       findFirst: jest.fn<any>(),
@@ -157,6 +158,116 @@ describe('AuthService', () => {
         id: 'account-id',
         email: 'test@test.com',
       });
+    });
+  });
+
+  describe('changeEmail', () => {
+    const hash = bcrypt.hashSync('Password1', 10);
+
+    beforeEach(() => {
+      mockPrisma.account.findUnique.mockReset();
+      mockPrisma.account.update = jest.fn<any>();
+    });
+
+    it('should update email when password is valid', async () => {
+      mockPrisma.account.findUnique
+        .mockResolvedValueOnce({
+          id: 'account-id',
+          passwordHash: hash,
+        })
+        .mockResolvedValueOnce(null);
+
+      mockPrisma.account.update.mockResolvedValue({
+        id: 'account-id',
+        email: 'new@test.com',
+      });
+
+      const result = await service.changeEmail('account-id', {
+        newEmail: 'new@test.com',
+        password: 'Password1',
+      });
+
+      expect(result.email).toBe('new@test.com');
+      expect(mockPrisma.account.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'account-id' },
+          data: { email: 'new@test.com' },
+        }),
+      );
+    });
+
+    it('should throw UnauthorizedException for wrong password', async () => {
+      mockPrisma.account.findUnique.mockResolvedValue({
+        id: 'account-id',
+        passwordHash: hash,
+      });
+
+      await expect(
+        service.changeEmail('account-id', {
+          newEmail: 'new@test.com',
+          password: 'WrongPassword1',
+        }),
+      ).rejects.toThrow(UnauthorizedException);
+    });
+
+    it('should throw ConflictException if email already in use', async () => {
+      mockPrisma.account.findUnique
+        .mockResolvedValueOnce({
+          id: 'account-id',
+          passwordHash: hash,
+        })
+        .mockResolvedValueOnce({ id: 'other-id', email: 'new@test.com' });
+
+      await expect(
+        service.changeEmail('account-id', {
+          newEmail: 'new@test.com',
+          password: 'Password1',
+        }),
+      ).rejects.toThrow(ConflictException);
+    });
+  });
+
+  describe('changePassword', () => {
+    const hash = bcrypt.hashSync('Password1', 10);
+
+    beforeEach(() => {
+      mockPrisma.account.findUnique.mockReset();
+      mockPrisma.account.update = jest.fn<any>();
+    });
+
+    it('should update password when current password is valid', async () => {
+      mockPrisma.account.findUnique.mockResolvedValue({
+        id: 'account-id',
+        passwordHash: hash,
+      });
+      mockPrisma.account.update.mockResolvedValue({ id: 'account-id' });
+
+      const result = await service.changePassword('account-id', {
+        currentPassword: 'Password1',
+        newPassword: 'NewPassword1',
+      });
+
+      expect(result.message).toBe('Password updated');
+      expect(mockPrisma.account.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: 'account-id' },
+          data: { passwordHash: expect.any(String) as unknown },
+        }),
+      );
+    });
+
+    it('should throw UnauthorizedException for wrong current password', async () => {
+      mockPrisma.account.findUnique.mockResolvedValue({
+        id: 'account-id',
+        passwordHash: hash,
+      });
+
+      await expect(
+        service.changePassword('account-id', {
+          currentPassword: 'WrongPassword1',
+          newPassword: 'NewPassword1',
+        }),
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 });

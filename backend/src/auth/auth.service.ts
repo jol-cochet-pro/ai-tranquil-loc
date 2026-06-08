@@ -8,6 +8,10 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import {
+  ChangeEmailDto,
+  ChangePasswordDto,
+} from './dto/change-credentials.dto';
 
 @Injectable()
 export class AuthService {
@@ -75,6 +79,60 @@ export class AuthService {
       select: { id: true, email: true },
     });
     return account;
+  }
+
+  async changeEmail(accountId: string, dto: ChangeEmailDto) {
+    const account = await this.prisma.account.findUnique({
+      where: { id: accountId },
+    });
+    if (!account) {
+      throw new UnauthorizedException('Account not found');
+    }
+
+    const isValid = await bcrypt.compare(dto.password, account.passwordHash);
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    const existing = await this.prisma.account.findUnique({
+      where: { email: dto.newEmail },
+    });
+    if (existing && existing.id !== accountId) {
+      throw new ConflictException('Email already in use');
+    }
+
+    await this.prisma.account.update({
+      where: { id: accountId },
+      data: { email: dto.newEmail },
+    });
+
+    return { email: dto.newEmail };
+  }
+
+  async changePassword(accountId: string, dto: ChangePasswordDto) {
+    const account = await this.prisma.account.findUnique({
+      where: { id: accountId },
+    });
+    if (!account) {
+      throw new UnauthorizedException('Account not found');
+    }
+
+    const isValid = await bcrypt.compare(
+      dto.currentPassword,
+      account.passwordHash,
+    );
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid current password');
+    }
+
+    const passwordHash = await bcrypt.hash(dto.newPassword, 10);
+
+    await this.prisma.account.update({
+      where: { id: accountId },
+      data: { passwordHash },
+    });
+
+    return { message: 'Password updated' };
   }
 
   private generateToken(account: { id: string; email: string }) {

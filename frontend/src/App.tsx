@@ -7,15 +7,8 @@ import { PersonView } from './pages/PersonView';
 import { ProtectedRoute } from './pages/ProtectedRoute';
 import { AppLayout } from './components/AppLayout';
 import { PersonListPage } from './pages/PersonListPage';
-
-function PlaceholderPage({ title }: { title: string }) {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
-      <p className="text-muted-foreground mt-2">Page en construction</p>
-    </div>
-  );
-}
+import { Settings } from './pages/Settings';
+import { TransmissionList } from './pages/TransmissionList';
 
 function App() {
   return (
@@ -54,7 +47,7 @@ function App() {
               path="/transmissions"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Transmissions" />
+                  <TransmissionList />
                 </ProtectedRoute>
               }
             />
@@ -62,7 +55,7 @@ function App() {
               path="/parametres"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Paramètres" />
+                  <Settings />
                 </ProtectedRoute>
               }
             />

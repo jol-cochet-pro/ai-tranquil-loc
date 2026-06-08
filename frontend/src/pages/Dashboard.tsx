@@ -4,6 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { invitationsApi, type Invitation } from '../api/invitations';
 import { personnesApi, type Personne } from '../api/personnes';
 import QRCode from 'qrcode';
+import { Button } from '../components/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 
 function InvitationQR({ token, label }: { token: string; label: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,14 +20,14 @@ function InvitationQR({ token, label }: { token: string; label: string }) {
   }, [show, url]);
 
   return (
-    <div className="invitation-qr">
-      <button className="btn-small" onClick={() => setShow(!show)}>
+    <div className="relative">
+      <Button variant="outline" size="sm" onClick={() => setShow(!show)}>
         {show ? 'Masquer QR' : 'QR Code'}
-      </button>
+      </Button>
       {show && (
-        <div className="qr-popup">
+        <div className="absolute right-0 top-full z-10 mt-2 rounded-lg border border-border bg-card p-3 shadow-lg">
           <canvas ref={canvasRef} />
-          <p className="hint">{label}</p>
+          <p className="text-xs text-muted-foreground text-center mt-1">{label}</p>
         </div>
       )}
     </div>
@@ -74,7 +77,6 @@ export function Dashboard() {
       setCopiedId(token);
       setTimeout(() => setCopiedId(null), 2000);
     } catch {
-      // Fallback
       const input = document.createElement('input');
       input.value = url;
       document.body.appendChild(input);
@@ -91,6 +93,15 @@ export function Dashboard() {
     navigate('/login');
   };
 
+  const statutVariant = (s: string) => {
+    const map: Record<string, "warning" | "info" | "success"> = {
+      pending: 'warning',
+      viewed: 'info',
+      completed: 'success',
+    };
+    return map[s] || 'default';
+  };
+
   const statutLabel = (s: string) => {
     const labels: Record<string, string> = {
       pending: 'En attente',
@@ -105,51 +116,52 @@ export function Dashboard() {
   );
 
   return (
-    <div className="dashboard">
-      <header>
-        <h1>Mon Dossier Locatif</h1>
-        <div>
-          <span>{account?.email}</span>
-          <button onClick={handleLogout}>Déconnexion</button>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <header className="flex items-center justify-between mb-8 pb-4 border-b border-border">
+        <h1 className="text-2xl font-semibold text-foreground">Mon Dossier Locatif</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">{account?.email}</span>
+          <Button variant="outline" size="sm" onClick={handleLogout}>
+            Déconnexion
+          </Button>
         </div>
       </header>
 
       <main>
-        <div className="quick-actions">
-          <button onClick={() => navigate('/dossier')} className="card-action">
-            <h3>Gestion des personnes</h3>
-            <p>Ajouter, modifier ou supprimer les personnes du dossier</p>
-          </button>
+        <div className="grid gap-4 mb-8">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/dossier')}>
+            <CardHeader>
+              <CardTitle>Gestion des personnes</CardTitle>
+              <CardDescription>
+                Ajouter, modifier ou supprimer les personnes du dossier
+              </CardDescription>
+            </CardHeader>
+          </Card>
         </div>
 
-        <section className="dashboard-section">
-          <div className="section-header">
-            <h2>Invitations</h2>
-          </div>
+        <section>
+          <h2 className="text-lg font-semibold text-foreground mb-4">Invitations</h2>
 
           {loading ? (
-            <p>Chargement...</p>
+            <p className="text-muted-foreground text-sm">Chargement...</p>
           ) : (
             <>
               {invitations.length > 0 && (
-                <div className="invitations-list">
+                <div className="space-y-2 mb-6">
                   {invitations.map((inv) => (
-                    <div key={inv.id} className="invitation-card">
-                      <div className="invitation-info">
-                        <strong>
+                    <div key={inv.id} className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-medium text-foreground">
                           {inv.personne.prenom} {inv.personne.nom}
-                        </strong>
-                        <span className={`statut-badge statut-${inv.statut}`}>
-                          {statutLabel(inv.statut)}
                         </span>
+                        <Badge variant={statutVariant(inv.statut)} className="w-fit">
+                          {statutLabel(inv.statut)}
+                        </Badge>
                       </div>
-                      <div className="invitation-actions">
-                        <button
-                          className="btn-small"
-                          onClick={() => handleCopyLink(inv.token)}
-                        >
+                      <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleCopyLink(inv.token)}>
                           {copiedId === inv.token ? 'Copié !' : 'Copier le lien'}
-                        </button>
+                        </Button>
                         <InvitationQR token={inv.token} label={`${inv.personne.prenom} ${inv.personne.nom}`} />
                       </div>
                     </div>
@@ -158,23 +170,18 @@ export function Dashboard() {
               )}
 
               {personnesWithoutInvitation.length > 0 && (
-                <div className="invite-persons-section">
-                  <h3>Créer une invitation</h3>
-                  <div className="personnes-list">
+                <div>
+                  <h3 className="text-sm font-medium text-foreground mb-3">Créer une invitation</h3>
+                  <div className="space-y-2">
                     {personnesWithoutInvitation.map((p) => (
-                      <div key={p.id} className="personne-card">
-                        <div className="personne-info">
-                          <strong>
-                            {p.prenom} {p.nom}
-                          </strong>
-                          <span className="statut-badge">{p.statut.nom}</span>
+                      <div key={p.id} className="flex items-center justify-between rounded-lg border border-border bg-card p-4">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-medium text-foreground">{p.prenom} {p.nom}</span>
+                          <Badge variant="default" className="w-fit">{p.statut.nom}</Badge>
                         </div>
-                        <button
-                          className="btn-primary"
-                          onClick={() => handleCreateInvitation(p.id)}
-                        >
+                        <Button size="sm" onClick={() => handleCreateInvitation(p.id)}>
                           Inviter
-                        </button>
+                        </Button>
                       </div>
                     ))}
                   </div>
@@ -182,7 +189,7 @@ export function Dashboard() {
               )}
 
               {invitations.length === 0 && personnesWithoutInvitation.length === 0 && (
-                <p className="empty-state">
+                <p className="text-muted-foreground text-sm text-center py-8 border border-dashed border-border rounded-lg">
                   Ajoutez d'abord des personnes dans la gestion des personnes
                 </p>
               )}

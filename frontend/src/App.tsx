@@ -6,33 +6,36 @@ import { Dashboard } from './pages/Dashboard';
 import { DossierBuilder } from './pages/DossierBuilder';
 import { PersonView } from './pages/PersonView';
 import { ProtectedRoute } from './pages/ProtectedRoute';
+import { PageLayout } from './components/PageLayout';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/invitation/:token" element={<PersonView />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dossier"
-            element={
-              <ProtectedRoute>
-                <DossierBuilder />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
+        <PageLayout>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/invitation/:token" element={<PersonView />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dossier"
+              element={
+                <ProtectedRoute>
+                  <DossierBuilder />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </PageLayout>
       </AuthProvider>
     </BrowserRouter>
   );

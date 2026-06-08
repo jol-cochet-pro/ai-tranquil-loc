@@ -15,6 +15,12 @@ import {
   documentsApi,
   type Document,
 } from "../api/documents";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+
 
 function emptyForm(): CreatePersonneDto {
   return {
@@ -51,6 +57,7 @@ export function DossierBuilder() {
   const [form, setForm] = useState<CreatePersonneDto>(emptyForm());
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [uploadingPersonneId, setUploadingPersonneId] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
@@ -128,6 +135,8 @@ export function DossierBuilder() {
         delete next[id];
         return next;
       });
+      setSuccess("Personne supprimée");
+      setTimeout(() => setSuccess(""), 3000);
     } catch {
       setError("Erreur lors de la suppression");
     }
@@ -153,10 +162,13 @@ export function DossierBuilder() {
         setPersonnes((prev) =>
           prev.map((p) => (p.id === editingPersonne.id ? updated : p)),
         );
+        setSuccess("Personne mise à jour");
       } else {
         const created = await personnesApi.create(formData);
         setPersonnes((prev) => [...prev, created]);
+        setSuccess("Personne ajoutée");
       }
+      setTimeout(() => setSuccess(""), 3000);
       setShowForm(false);
       setEditingPersonne(null);
     } catch {
@@ -245,11 +257,8 @@ export function DossierBuilder() {
   const docTypeLabel = (id: string) =>
     allDocumentTypes.find((d) => d.id === id)?.nom || id;
 
-  const requiredDocTypesForPersonne = (personne: Personne) =>
-    documentsByStatut[personne.statutId] || [];
-
   const missingDocTypes = (personne: Personne) => {
-    const required = requiredDocTypesForPersonne(personne);
+    const required = documentsByStatut[personne.statutId] || [];
     const uploaded = documentsByPersonne[personne.id] || [];
     const uploadedTypeIds = new Set(uploaded.map((d) => d.typeDocumentId));
     return required.filter((d) => !uploadedTypeIds.has(d.id));
@@ -277,271 +286,272 @@ export function DossierBuilder() {
     };
 
     return (
-      <form className="upload-form" onSubmit={onSubmit}>
-        <div className="upload-row">
-          <label>
-            Fichier
-            <input
-              type="file"
-              accept=".pdf,.jpg,.jpeg,.png,.webp"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-          </label>
-          <label>
-            Type
-            <select
-              value={typeDocumentId}
-              onChange={(e) => setTypeDocumentId(e.target.value)}
-            >
-              <option value="">Sélectionner...</option>
-              {allDocumentTypes.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.nom}
-                </option>
-              ))}
-            </select>
-          </label>
-          {isAutre && (
-            <label>
-              Nom personnalisé
-              <input
-                value={customName}
-                onChange={(e) => setCustomName(e.target.value)}
-                placeholder="Ex: Attestation stage"
-              />
-            </label>
-          )}
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={!canSubmit || uploadingPersonneId === personne.id}
-          >
-            {uploadingPersonneId === personne.id ? "Envoi..." : "Uploader"}
-          </button>
+      <form className="flex flex-wrap gap-3 items-end" onSubmit={onSubmit}>
+        <div>
+          <Label className="mb-1 block text-xs">Fichier</Label>
+          <Input
+            type="file"
+            accept=".pdf,.jpg,.jpeg,.png,.webp"
+            onChange={(e) => setFile(e.target.files?.[0] || null)}
+            className="w-40"
+          />
         </div>
+        <div>
+          <Label className="mb-1 block text-xs">Type</Label>
+          <select
+            value={typeDocumentId}
+            onChange={(e) => setTypeDocumentId(e.target.value)}
+            className="flex h-10 w-40 rounded-lg border border-border bg-card px-3 py-2 text-sm"
+          >
+            <option value="">Sélectionner...</option>
+            {allDocumentTypes.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.nom}
+              </option>
+            ))}
+          </select>
+        </div>
+        {isAutre && (
+          <div>
+            <Label className="mb-1 block text-xs">Nom personnalisé</Label>
+            <Input
+              value={customName}
+              onChange={(e) => setCustomName(e.target.value)}
+              placeholder="Ex: Attestation stage"
+              className="w-44"
+            />
+          </div>
+        )}
+        <Button
+          type="submit"
+          size="sm"
+          disabled={!canSubmit || uploadingPersonneId === personne.id}
+        >
+          {uploadingPersonneId === personne.id ? "Envoi..." : "Uploader"}
+        </Button>
       </form>
     );
   };
 
   return (
-    <div className="dossier-builder">
-      <header>
-        <h1>Mon Dossier Locatif</h1>
-        <div>
-          <span>{account?.email}</span>
-          <button onClick={handleLogout}>Déconnexion</button>
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <header className="flex items-center justify-between mb-6 pb-4 border-b border-border">
+        <h1 className="text-2xl font-semibold text-foreground">Mon Dossier Locatif</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">{account?.email}</span>
+          <Button variant="outline" size="sm" onClick={handleLogout}>
+            Déconnexion
+          </Button>
         </div>
       </header>
 
-      <nav className="nav-links">
-        <button onClick={() => navigate("/dashboard")}>Tableau de bord</button>
-        <button className="active">Gestion des personnes</button>
-      </nav>
+      <div className="flex gap-2 mb-6">
+        <Button variant="outline" size="sm" onClick={() => navigate("/dashboard")}>
+          Tableau de bord
+        </Button>
+        <Button variant="default" size="sm">
+          Gestion des personnes
+        </Button>
+      </div>
 
       <main>
-        {error && <div className="error">{error}</div>}
+        {error && (
+          <div className="bg-destructive/10 text-destructive text-sm rounded-lg px-3 py-2 mb-4">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="bg-green-100 text-green-800 text-sm rounded-lg px-3 py-2 mb-4">
+            {success}
+          </div>
+        )}
 
-        <section className="personnes-section">
-          <div className="section-header">
-            <h2>Personnes du dossier</h2>
-            <button onClick={handleAdd} className="btn-primary">
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-foreground">Personnes du dossier</h2>
+            <Button size="sm" onClick={handleAdd}>
               + Ajouter
-            </button>
+            </Button>
           </div>
 
           {personnes.length === 0 && !showForm && (
-            <p className="empty-state">
+            <p className="text-muted-foreground text-sm text-center py-8 border border-dashed border-border rounded-lg">
               Aucune personne pour le moment. Ajoutez le candidat locataire, les
               garants ou les co-candidats.
             </p>
           )}
 
-          <div className="personnes-list">
+          <div className="space-y-4">
             {personnes.map((personne) => {
               const missing = missingDocTypes(personne);
               return (
-                <div key={personne.id} className="personne-card">
-                  <div className="personne-info">
-                    <strong>
-                      {personne.prenom} {personne.nom}
-                    </strong>
-                    <span className="statut-badge">
-                      {statutLabel(personne.statutId)}
-                    </span>
-                    <span className="type-logement">
-                      {typeLogementLabel(personne.typeLogement)}
-                    </span>
-                    {personne.email && (
-                      <span className="email">{personne.email}</span>
-                    )}
-                    {personne.revenus != null && (
-                      <span className="revenus">
-                        {personne.revenus.toLocaleString("fr-FR")} €/mois
-                      </span>
-                    )}
-                  </div>
-                  <div className="personne-actions">
-                    <button onClick={() => handleEdit(personne)}>
-                      Modifier
-                    </button>
-                    <button
-                      onClick={() => handleDelete(personne.id)}
-                      className="btn-danger"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-
-                  <div className="documents-section">
-                    <h4>
-                      Documents{" "}
-                      {missing.length > 0 && (
-                        <span className="missing-count">
-                          ({missing.length} requis manquants)
-                        </span>
-                      )}
-                    </h4>
-
-                    {(documentsByPersonne[personne.id]?.length || 0) > 0 && (
-                      <ul className="document-list">
-                        {documentsByPersonne[personne.id]?.map((doc) => (
-                          <li key={doc.id} className="document-item">
-                            <span className="doc-name">
-                              {doc.nomFichier}
-                            </span>
-                            <span className="doc-type">
-                              {docTypeLabel(doc.typeDocumentId)}
-                            </span>
-                            <span className="doc-size">
-                              {formatTaille(doc.taille)}
-                            </span>
-                            <div className="doc-actions">
-                              <button
-                                onClick={() => handleDownload(doc)}
-                                className="btn-download"
-                              >
-                                Télécharger
-                              </button>
-                              <button
-                                onClick={() =>
-                                  handleDeleteDocument(personne.id, doc.id)
-                                }
-                                className="btn-danger btn-sm"
-                              >
-                                Supprimer
-                              </button>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {missing.length > 0 && (
-                      <div className="missing-docs">
-                        <p className="missing-title">Documents requis manquants :</p>
-                        <ul>
-                          {missing.map((d) => (
-                            <li key={d.id}>{d.nom}</li>
-                          ))}
-                        </ul>
+                <Card key={personne.id}>
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <CardTitle className="text-base">
+                          {personne.prenom} {personne.nom}
+                        </CardTitle>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          <Badge variant="default">{statutLabel(personne.statutId)}</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {typeLogementLabel(personne.typeLogement)}
+                          {personne.email && ` · ${personne.email}`}
+                          {personne.revenus != null && ` · ${personne.revenus.toLocaleString("fr-FR")} €/mois`}
+                        </p>
                       </div>
-                    )}
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={() => handleEdit(personne)}>
+                          Modifier
+                        </Button>
+                        <Button variant="destructive" size="sm" onClick={() => handleDelete(personne.id)}>
+                          Supprimer
+                        </Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium text-foreground mb-2">
+                        Documents
+                        {missing.length > 0 && (
+                          <span className="text-destructive text-xs ml-2">
+                            ({missing.length} requis manquants)
+                          </span>
+                        )}
+                      </h4>
 
-                    <UploadForm personne={personne} />
-                  </div>
-                </div>
+                      {(documentsByPersonne[personne.id]?.length || 0) > 0 && (
+                        <div className="space-y-1 mb-3">
+                          {documentsByPersonne[personne.id]?.map((doc) => (
+                            <div key={doc.id} className="flex items-center gap-3 rounded-lg border border-border bg-muted/50 px-3 py-2 text-sm">
+                              <span className="flex-1 text-foreground">{doc.nomFichier}</span>
+                              <span className="text-xs text-muted-foreground">{docTypeLabel(doc.typeDocumentId)}</span>
+                              <span className="text-xs text-muted-foreground">{formatTaille(doc.taille)}</span>
+                              <Button variant="outline" size="sm" onClick={() => handleDownload(doc)}>
+                                Télécharger
+                              </Button>
+                              <Button variant="destructive" size="sm" onClick={() => handleDeleteDocument(personne.id, doc.id)}>
+                                Supprimer
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {missing.length > 0 && (
+                        <div className="mb-3 rounded-lg bg-primary-light/30 px-3 py-2 text-sm">
+                          <p className="font-medium text-primary text-xs mb-1">Documents requis manquants :</p>
+                          <ul className="list-disc list-inside text-xs text-foreground">
+                            {missing.map((d) => (
+                              <li key={d.id}>{d.nom}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      <UploadForm personne={personne} />
+                    </div>
+                  </CardContent>
+                </Card>
               );
             })}
           </div>
         </section>
 
         {showForm && (
-          <section className="form-section">
-            <h2>{editingPersonne ? "Modifier" : "Ajouter"} une personne</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-row">
-                <label>
-                  Prénom
-                  <input
-                    value={form.prenom}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, prenom: e.target.value }))
-                    }
-                    required
-                  />
-                </label>
-                <label>
-                  Nom
-                  <input
-                    value={form.nom}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, nom: e.target.value }))
-                    }
-                    required
-                  />
-                </label>
-              </div>
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="text-lg">
+                {editingPersonne ? "Modifier" : "Ajouter"} une personne
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Prénom</Label>
+                    <Input
+                      value={form.prenom}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, prenom: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Nom</Label>
+                    <Input
+                      value={form.nom}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, nom: e.target.value }))
+                      }
+                      required
+                    />
+                  </div>
+                </div>
 
-              <div className="form-row">
-                <label>
-                  Email
-                  <input
-                    type="email"
-                    value={form.email}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, email: e.target.value }))
-                    }
-                  />
-                </label>
-                <label>
-                  Téléphone
-                  <input
-                    value={form.telephone}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, telephone: e.target.value }))
-                    }
-                  />
-                </label>
-              </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Email</Label>
+                    <Input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, email: e.target.value }))
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Téléphone</Label>
+                    <Input
+                      value={form.telephone}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, telephone: e.target.value }))
+                      }
+                    />
+                  </div>
+                </div>
 
-              <div className="form-row">
-                <label>
-                  Revenus (net mensuel €)
-                  <input
-                    type="number"
-                    min="0"
-                    value={form.revenus ?? ""}
-                    onChange={(e) =>
-                      setForm((f) => ({
-                        ...f,
-                        revenus: e.target.value
-                          ? Number(e.target.value)
-                          : undefined,
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Type de logement
-                  <select
-                    value={form.typeLogement}
-                    onChange={(e) =>
-                      setForm((f) => ({
-                        ...f,
-                        typeLogement: e.target.value as CreatePersonneDto["typeLogement"],
-                      }))
-                    }
-                  >
-                    <option value="locataire">Locataire</option>
-                    <option value="proprietaire">Propriétaire</option>
-                    <option value="heberge">Hébergé</option>
-                  </select>
-                </label>
-              </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Revenus (net mensuel €)</Label>
+                    <Input
+                      type="number"
+                      min="0"
+                      value={form.revenus ?? ""}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          revenus: e.target.value
+                            ? Number(e.target.value)
+                            : undefined,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Type de logement</Label>
+                    <select
+                      value={form.typeLogement}
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          typeLogement: e.target.value as CreatePersonneDto["typeLogement"],
+                        }))
+                      }
+                      className="flex h-10 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm"
+                    >
+                      <option value="locataire">Locataire</option>
+                      <option value="proprietaire">Propriétaire</option>
+                      <option value="heberge">Hébergé</option>
+                    </select>
+                  </div>
+                </div>
 
-              <div className="form-row">
-                <label>
-                  Statut
+                <div className="space-y-2">
+                  <Label>Statut</Label>
                   <select
                     value={form.statutId}
                     onChange={(e) => {
@@ -549,6 +559,7 @@ export function DossierBuilder() {
                       loadDocumentsForStatut(e.target.value);
                     }}
                     required
+                    className="flex h-10 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm"
                   >
                     <option value="">Sélectionner...</option>
                     {statuts.map((s) => (
@@ -557,36 +568,37 @@ export function DossierBuilder() {
                       </option>
                     ))}
                   </select>
-                </label>
-              </div>
-
-              {form.statutId && documentsByStatut[form.statutId] && (
-                <div className="documents-requis">
-                  <h3>Documents requis</h3>
-                  <ul>
-                    {documentsByStatut[form.statutId].map((doc) => (
-                      <li key={doc.id}>{doc.nom}</li>
-                    ))}
-                  </ul>
                 </div>
-              )}
 
-              <div className="form-actions">
-                <button type="submit" className="btn-primary">
-                  {editingPersonne ? "Enregistrer" : "Ajouter"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowForm(false);
-                    setEditingPersonne(null);
-                  }}
-                >
-                  Annuler
-                </button>
-              </div>
-            </form>
-          </section>
+                {form.statutId && documentsByStatut[form.statutId] && (
+                  <div className="rounded-lg bg-primary-light/30 px-4 py-3">
+                    <h3 className="text-sm font-medium text-primary mb-1">Documents requis</h3>
+                    <ul className="list-disc list-inside text-xs text-foreground">
+                      {documentsByStatut[form.statutId].map((doc) => (
+                        <li key={doc.id}>{doc.nom}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="flex gap-2 pt-2">
+                  <Button type="submit">
+                    {editingPersonne ? "Enregistrer" : "Ajouter"}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => {
+                      setShowForm(false);
+                      setEditingPersonne(null);
+                    }}
+                  >
+                    Annuler
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         )}
       </main>
     </div>

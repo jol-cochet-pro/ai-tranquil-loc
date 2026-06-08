@@ -5,6 +5,10 @@ import { invitationsApi, type Invitation } from "../api/invitations";
 import type { DocumentType } from "../api/configuration";
 import type { Document } from "../api/documents";
 import { formatTaille, downloadBlob } from "./utils";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 export function PersonView() {
   const { token } = useParams<{ token: string }>();
@@ -114,13 +118,23 @@ export function PersonView() {
     }
   };
 
-  if (loading) return <div className="auth-page"><p>Chargement...</p></div>;
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-muted-foreground">Chargement...</p>
+    </div>
+  );
 
   if (error) {
     return (
-      <div className="auth-page">
-        <h1>Dossier Locatif</h1>
-        <p>{error}</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="w-full max-w-sm text-center">
+          <CardHeader>
+            <CardTitle>Dossier Locatif</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">{error}</p>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -132,107 +146,132 @@ export function PersonView() {
   const showCustomName = selectedType?.nom === "Autre";
 
   return (
-    <div className="person-view">
-      <header>
-        <h1>Dossier Locatif</h1>
-        <p>Complétez vos informations et documents</p>
+    <div className="max-w-2xl mx-auto px-4 py-8">
+      <header className="text-center mb-8 pb-4 border-b border-border">
+        <h1 className="text-2xl font-semibold text-foreground">Dossier Locatif</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Complétez vos informations et documents
+        </p>
       </header>
 
-      <main>
-        <form onSubmit={handleSave} className="form-section">
-          <h2>Mes informations</h2>
-          <div className="form-row">
-            <label>
-              Prénom
-              <input value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-            </label>
-            <label>
-              Nom
-              <input value={nom} onChange={(e) => setNom(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-row">
-            <label>
-              Email
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </label>
-            <label>
-              Téléphone
-              <input value={telephone} onChange={(e) => setTelephone(e.target.value)} />
-            </label>
-          </div>
-          <div className="form-actions">
-            <button type="submit" className="btn-primary" disabled={saving}>
-              {saving ? "Enregistrement..." : "Enregistrer"}
-            </button>
-            {saveSuccess && <span className="success-msg">Informations enregistrées</span>}
-          </div>
-        </form>
-
-        <div className="form-section">
-          <h2>Mes documents</h2>
-
-          <form onSubmit={handleUpload} className="document-upload">
-            <div className="form-row">
-              <label>
-                Type de document
-                <select value={uploadType} onChange={(e) => setUploadType(e.target.value)}>
-                  <option value="">Sélectionner un type</option>
-                  {documentTypes.map((dt) => (
-                    <option key={dt.id} value={dt.id}>
-                      {dt.nom}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              {showCustomName && (
-                <label>
-                  Nom du document
-                  <input
-                    value={uploadCustomName}
-                    onChange={(e) => setUploadCustomName(e.target.value)}
-                    placeholder="Ex: Attestation employeur"
-                  />
-                </label>
-              )}
-            </div>
-            <div className="form-row">
-              <label>
-                Fichier
-                <input id="file-upload" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" />
-              </label>
-            </div>
-            <button type="submit" className="btn-primary" disabled={uploading || !uploadType}>
-              {uploading ? "Upload..." : "Uploader"}
-            </button>
-          </form>
-
-          {documents.length > 0 ? (
-            <div className="documents-list">
-              {documents.map((doc) => (
-                <div key={doc.id} className="document-row">
-                  <span>{doc.nomFichier}</span>
-                  <span className="document-size">{formatTaille(doc.taille)}</span>
-                  <button onClick={() => handleDownload(doc)} className="btn-download">
-                    Télécharger
-                  </button>
+      <main className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Mes informations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSave} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Prénom</Label>
+                  <Input value={prenom} onChange={(e) => setPrenom(e.target.value)} />
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="empty-state">Aucun document uploadé</p>
-          )}
-        </div>
+                <div className="space-y-2">
+                  <Label>Nom</Label>
+                  <Input value={nom} onChange={(e) => setNom(e.target.value)} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Email</Label>
+                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Téléphone</Label>
+                  <Input value={telephone} onChange={(e) => setTelephone(e.target.value)} />
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Button type="submit" disabled={saving}>
+                  {saving ? "Enregistrement..." : "Enregistrer"}
+                </Button>
+                {saveSuccess && (
+                  <span className="text-sm text-green-600">Informations enregistrées</span>
+                )}
+              </div>
+            </form>
+          </CardContent>
+        </Card>
 
-        <div className="form-section">
-          <h2>Partager ce lien</h2>
-          <div className="invite-link">
-            <input type="text" readOnly value={invUrl} onClick={(e) => (e.target as HTMLInputElement).select()} />
-          </div>
-          <div className="qr-container">
-            <canvas ref={qrCanvasRef} />
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Mes documents</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleUpload} className="space-y-4 mb-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Type de document</Label>
+                  <select
+                    value={uploadType}
+                    onChange={(e) => setUploadType(e.target.value)}
+                    className="flex h-10 w-full rounded-lg border border-border bg-card px-3 py-2 text-sm"
+                  >
+                    <option value="">Sélectionner un type</option>
+                    {documentTypes.map((dt) => (
+                      <option key={dt.id} value={dt.id}>
+                        {dt.nom}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {showCustomName && (
+                  <div className="space-y-2">
+                    <Label>Nom du document</Label>
+                    <Input
+                      value={uploadCustomName}
+                      onChange={(e) => setUploadCustomName(e.target.value)}
+                      placeholder="Ex: Attestation employeur"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label>Fichier</Label>
+                <Input id="file-upload" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" />
+              </div>
+              <Button type="submit" disabled={uploading || !uploadType}>
+                {uploading ? "Upload..." : "Uploader"}
+              </Button>
+            </form>
+
+            {documents.length > 0 ? (
+              <div className="space-y-2">
+                {documents.map((doc) => (
+                  <div key={doc.id} className="flex items-center gap-3 rounded-lg border border-border bg-muted/50 px-3 py-2 text-sm">
+                    <span className="flex-1 text-foreground">{doc.nomFichier}</span>
+                    <span className="text-xs text-muted-foreground">{formatTaille(doc.taille)}</span>
+                    <Button variant="outline" size="sm" onClick={() => handleDownload(doc)}>
+                      Télécharger
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm text-center py-4 border border-dashed border-border rounded-lg">
+                Aucun document uploadé
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Partager ce lien</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              type="text"
+              readOnly
+              value={invUrl}
+              onClick={(e) => (e.target as HTMLInputElement).select()}
+              className="mb-4"
+            />
+            <div className="flex justify-center">
+              <canvas ref={qrCanvasRef} />
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

@@ -4,6 +4,7 @@ import { PersonneModule } from './personne/personne.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { DocumentModule } from './document/document.module';
 import { InvitationModule } from './invitation/invitation.module';
+import { TransmissionModule } from './transmission/transmission.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { InvitationModule } from './invitation/invitation.module';
     ConfigurationModule,
     DocumentModule,
     InvitationModule,
+    TransmissionModule,
   ],
 })
 export class AppModule {}

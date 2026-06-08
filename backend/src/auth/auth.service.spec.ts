@@ -21,6 +21,9 @@ describe('AuthService', () => {
       findUnique: jest.fn<any>(),
       create: jest.fn<any>(),
     },
+    statut: {
+      findFirst: jest.fn<any>(),
+    },
   };
 
   const mockJwtService = {
@@ -44,8 +47,12 @@ describe('AuthService', () => {
   });
 
   describe('register', () => {
-    it('should create account and dossier, return token', async () => {
+    it('should create account and dossier with personne, return token', async () => {
       mockPrisma.account.findUnique.mockResolvedValue(null);
+      mockPrisma.statut.findFirst.mockResolvedValue({
+        id: 'statut-salarie',
+        nom: 'Salarié',
+      });
       mockPrisma.account.create.mockResolvedValue({
         id: 'account-id',
         email: 'test@test.com',
@@ -64,13 +71,29 @@ describe('AuthService', () => {
         expect.objectContaining({
           data: expect.objectContaining({
             email: 'test@test.com',
-            dossier: { create: {} },
+            dossier: {
+              create: expect.objectContaining({
+                personnes: {
+                  create: expect.objectContaining({
+                    nom: 'test',
+                    prenom: '',
+                    role: 'candidat',
+                    statutId: 'statut-salarie',
+                    typeLogement: 'locataire',
+                  }),
+                },
+              }),
+            },
           }),
         }),
       );
     });
 
     it('should throw ConflictException if email already exists', async () => {
+      mockPrisma.statut.findFirst.mockResolvedValue({
+        id: 'statut-salarie',
+        nom: 'Salarié',
+      });
       mockPrisma.account.findUnique.mockResolvedValue({ id: 'existing-id' });
 
       await expect(

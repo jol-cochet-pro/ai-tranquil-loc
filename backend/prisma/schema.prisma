@@ -24,6 +24,12 @@ enum StatutInvitation {
   completed
 }
 
+enum Role {
+  candidat
+  co_candidat
+  garant
+}
+
 model Account {
   id           String   @id @default(uuid())
   email        String   @unique
@@ -42,7 +48,8 @@ model Dossier {
   accountId String  @unique
   account   Account @relation(fields: [accountId], references: [id])
 
-  personnes Personne[]
+  personnes    Personne[]
+  transmissions Transmission[]
 }
 
 model Personne {
@@ -52,9 +59,10 @@ model Personne {
   email        String?
   telephone    String?
   revenus      Int?
+  role         Role           @default(candidat)
   typeLogement TypeLogement
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   statutId  String
   statut    Statut    @relation(fields: [statutId], references: [id])
@@ -110,6 +118,7 @@ model DocumentType {
 
   statutDocumentTypes StatutDocumentType[]
   documents           Document[]
+  transmissionDocumentTypes TransmissionDocumentType[]
 }
 
 model StatutDocumentType {
@@ -119,4 +128,28 @@ model StatutDocumentType {
   documentType   DocumentType @relation(fields: [documentTypeId], references: [id])
 
   @@id([statutId, documentTypeId])
+}
+
+model Transmission {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  expireAt  DateTime?
+  revoked   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  dossierId String
+  dossier   Dossier @relation(fields: [dossierId], references: [id])
+
+  transmissionDocumentTypes TransmissionDocumentType[]
+}
+
+model TransmissionDocumentType {
+  transmissionId String
+  documentTypeId String
+
+  transmission  Transmission  @relation(fields: [transmissionId], references: [id], onDelete: Cascade)
+  documentType  DocumentType  @relation(fields: [documentTypeId], references: [id])
+
+  @@id([transmissionId, documentTypeId])
 }

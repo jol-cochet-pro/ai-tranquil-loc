@@ -26,11 +26,27 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(dto.password, 10);
 
+    const defaultStatut = await this.prisma.statut.findFirst({
+      where: { nom: 'Salarié' },
+    });
+
     const account = await this.prisma.account.create({
       data: {
         email: dto.email,
         passwordHash,
-        dossier: { create: {} },
+        dossier: {
+          create: {
+            personnes: {
+              create: {
+                nom: dto.email.split('@')[0],
+                prenom: '',
+                role: 'candidat',
+                statutId: defaultStatut?.id ?? 'statut-salarie',
+                typeLogement: 'locataire',
+              },
+            },
+          },
+        },
       },
     });
 

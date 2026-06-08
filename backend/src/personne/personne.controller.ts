@@ -14,7 +14,7 @@ import { PersonneService } from './personne.service';
 import { CreatePersonneDto } from './dto/create-personne.dto';
 import { UpdatePersonneDto } from './dto/update-personne.dto';
 
-@Controller('dossier/personnes')
+@Controller('personnes')
 @UseGuards(JwtAuthGuard)
 export class PersonneController {
   constructor(private readonly personneService: PersonneService) {}
@@ -25,6 +25,11 @@ export class PersonneController {
     @Body() dto: CreatePersonneDto,
   ) {
     return this.personneService.create(req.user.sub, dto);
+  }
+
+  @Get('completion')
+  getCompletion(@Req() req: { user: { sub: string } }) {
+    return this.personneService.getCompletion(req.user.sub);
   }
 
   @Get()

@@ -13,6 +13,12 @@ export enum TypeLogement {
   heberge = 'heberge',
 }
 
+export enum Role {
+  candidat = 'candidat',
+  co_candidat = 'co_candidat',
+  garant = 'garant',
+}
+
 export class CreatePersonneDto {
   @IsString()
   nom: string;
@@ -32,6 +38,10 @@ export class CreatePersonneDto {
   @IsInt()
   @Min(0)
   revenus?: number;
+
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
 
   @IsEnum(TypeLogement)
   typeLogement: TypeLogement;

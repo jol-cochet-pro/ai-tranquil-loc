@@ -18,6 +18,12 @@ describe('PersonneService', () => {
       update: jest.fn<any>(),
       delete: jest.fn<any>(),
     },
+    document: {
+      count: jest.fn<any>(),
+    },
+    statutDocumentType: {
+      count: jest.fn<any>(),
+    },
   };
 
   beforeEach(async () => {
@@ -63,6 +69,7 @@ describe('PersonneService', () => {
             nom: 'Dupont',
             prenom: 'Jean',
             dossierId: 'dossier-id',
+            role: 'candidat',
           }),
         }),
       );
@@ -197,6 +204,60 @@ describe('PersonneService', () => {
       await expect(service.remove('invalid-id', 'account-id')).rejects.toThrow(
         NotFoundException,
       );
+    });
+  });
+
+  describe('getCompletion', () => {
+    it('should return completion data for each personne', async () => {
+      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockPrisma.personne.findMany.mockResolvedValue([
+        {
+          id: 'p1',
+          nom: 'Dupont',
+          prenom: 'Jean',
+          role: 'candidat',
+          statutId: 'statut-id',
+          statut: { nom: 'Salarié' },
+          invitations: [],
+        },
+      ]);
+      mockPrisma.document.count.mockResolvedValue(2);
+      mockPrisma.statutDocumentType.count.mockResolvedValue(5);
+
+      const result = await service.getCompletion('account-id');
+
+      expect(result).toEqual([
+        {
+          personneId: 'p1',
+          nom: 'Dupont',
+          prenom: 'Jean',
+          role: 'candidat',
+          documentsCount: 2,
+          documentsRequired: 5,
+          invitationStatus: null,
+        },
+      ]);
+    });
+
+    it('should return invitation status when present', async () => {
+      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockPrisma.personne.findMany.mockResolvedValue([
+        {
+          id: 'p1',
+          nom: 'Dupont',
+          prenom: 'Jean',
+          role: 'candidat',
+          statutId: 'statut-id',
+          statut: { nom: 'Salarié' },
+          invitations: [{ statut: 'pending' }],
+        },
+      ]);
+      mockPrisma.document.count.mockResolvedValue(0);
+      mockPrisma.statutDocumentType.count.mockResolvedValue(3);
+
+      const result = await service.getCompletion('account-id');
+
+      expect(result[0].invitationStatus).toBe('pending');
     });
   });
 });

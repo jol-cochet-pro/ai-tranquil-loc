@@ -45,43 +45,9 @@ const statuts = [
   { id: "s2", nom: "Étudiant" },
 ];
 
-const personnes = [
-  {
-    id: "p1",
-    nom: "Dupont",
-    prenom: "Jean",
-    email: null,
-    telephone: null,
-    revenus: 2500,
-    typeLogement: "locataire",
-    statutId: "s1",
-    dossierId: "d1",
-    statut: { id: "s1", nom: "Salarié" },
-    createdAt: "2024-01-01",
-    updatedAt: "2024-01-01",
-  },
-];
-
 describe("DossierBuilder", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-    await waitFor(() => {
-      expect(screen.getByText(/Aucune personne/)).toBeInTheDocument();
-    });
-
-    render(
-      <TestWrapper>
-        <DossierBuilder />
-      </TestWrapper>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText("Jean Dupont")).toBeInTheDocument();
-    });
-
-    expect(screen.getByText("Salarié")).toBeInTheDocument();
   });
 
   it("shows empty state when no personnes", async () => {

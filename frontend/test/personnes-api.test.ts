@@ -23,7 +23,7 @@ describe('personnesApi', () => {
 
     const result = await personnesApi.list();
     expect(result).toEqual(data);
-    expect(mockClient.get).toHaveBeenCalledWith('/dossier/personnes');
+    expect(mockClient.get).toHaveBeenCalledWith('/personnes');
   });
 
   it('create() posts a new personne', async () => {
@@ -33,7 +33,7 @@ describe('personnesApi', () => {
 
     const result = await personnesApi.create(dto);
     expect(result).toEqual(created);
-    expect(mockClient.post).toHaveBeenCalledWith('/dossier/personnes', dto);
+    expect(mockClient.post).toHaveBeenCalledWith('/personnes', dto);
   });
 
   it('update() patches a personne', async () => {
@@ -43,13 +43,13 @@ describe('personnesApi', () => {
 
     const result = await personnesApi.update('1', data);
     expect(result).toEqual(updated);
-    expect(mockClient.patch).toHaveBeenCalledWith('/dossier/personnes/1', data);
+    expect(mockClient.patch).toHaveBeenCalledWith('/personnes/1', data);
   });
 
   it('delete() removes a personne', async () => {
     mockClient.delete.mockResolvedValue({});
 
     await personnesApi.delete('1');
-    expect(mockClient.delete).toHaveBeenCalledWith('/dossier/personnes/1');
+    expect(mockClient.delete).toHaveBeenCalledWith('/personnes/1');
   });
 });

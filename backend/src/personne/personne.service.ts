@@ -35,6 +35,7 @@ export class PersonneService {
         email: dto.email,
         telephone: dto.telephone,
         revenus: dto.revenus,
+        role: dto.role ?? 'candidat',
         typeLogement: dto.typeLogement,
         statutId: dto.statutId,
         dossierId,
@@ -98,5 +99,42 @@ export class PersonneService {
     }
 
     await this.prisma.personne.delete({ where: { id } });
+  }
+
+  async getCompletion(accountId: string) {
+    const dossierId = await this.getDossierId(accountId);
+
+    const personnes = await this.prisma.personne.findMany({
+      where: { dossierId },
+      include: { statut: true, invitations: true },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    const results = await Promise.all(
+      personnes.map(async (p) => {
+        const documentsCount = await this.prisma.document.count({
+          where: { personneId: p.id },
+        });
+
+        const documentsRequired = await this.prisma.statutDocumentType.count({
+          where: { statutId: p.statutId },
+        });
+
+        const invitationStatus =
+          p.invitations.length > 0 ? p.invitations[0].statut : null;
+
+        return {
+          personneId: p.id,
+          nom: p.nom,
+          prenom: p.prenom,
+          role: p.role,
+          documentsCount,
+          documentsRequired,
+          invitationStatus,
+        };
+      }),
+    );
+
+    return results;
   }
 }

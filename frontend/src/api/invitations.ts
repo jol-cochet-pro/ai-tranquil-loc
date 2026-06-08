@@ -75,6 +75,10 @@ export const invitationsApi = {
       .then((r) => r.data);
   },
 
-  getDocumentDownloadUrl: (token: string, documentId: string) =>
-    `/invitations/${token}/documents/${documentId}/download`,
+  getDocumentDownloadUrl: async (token: string, documentId: string) => {
+    const response = await publicClient.get<{ url: string }>(
+      `/invitations/${token}/documents/${documentId}/download-url`,
+    );
+    return response.data.url;
+  },
 };

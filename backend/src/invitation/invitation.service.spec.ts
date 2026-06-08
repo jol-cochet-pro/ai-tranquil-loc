@@ -101,7 +101,7 @@ describe('InvitationService', () => {
         updatedAt: new Date(),
       });
       mockPrisma.documentType.findMany.mockResolvedValue([
-        { id: 'dt1', nom: 'Pièce d\'identité' },
+        { id: 'dt1', nom: "Pièce d'identité" },
       ]);
 
       const result = await service.findByToken('valid-token');

@@ -192,16 +192,13 @@ export function DossierBuilder() {
 
   const handleDownload = async (doc: Document) => {
     try {
-      const response = await documentsApi.download(doc.id);
-      const blob = new Blob([response.data], { type: doc.mimeType });
-      const url = URL.createObjectURL(blob);
+      const presignedUrl = await documentsApi.getDownloadUrl(doc.id);
       const a = document.createElement('a');
-      a.href = url;
+      a.href = presignedUrl;
       a.download = doc.nomFichier;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
     } catch {
       setError("Erreur lors du téléchargement");
     }

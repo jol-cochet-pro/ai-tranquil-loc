@@ -4,7 +4,7 @@ import QRCode from "qrcode";
 import { invitationsApi, type Invitation } from "../api/invitations";
 import type { DocumentType } from "../api/configuration";
 import type { Document } from "../api/documents";
-import { formatTaille, downloadBlob } from "./utils";
+import { formatTaille } from "./utils";
 
 export function PersonView() {
   const { token } = useParams<{ token: string }>();
@@ -105,10 +105,13 @@ export function PersonView() {
   const handleDownload = async (doc: Document) => {
     if (!token) return;
     try {
-      const url = invitationsApi.getDocumentDownloadUrl(token, doc.id);
-      const response = await fetch(url);
-      const blob = await response.blob();
-      downloadBlob(blob, doc.nomFichier);
+      const presignedUrl = await invitationsApi.getDocumentDownloadUrl(token, doc.id);
+      const a = document.createElement('a');
+      a.href = presignedUrl;
+      a.download = doc.nomFichier;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } catch {
       setError("Erreur lors du téléchargement");
     }

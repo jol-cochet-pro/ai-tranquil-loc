@@ -26,7 +26,7 @@ TL;DR - build a tiny, end-to-end slice of the feature first, then expand it out.
 
 # EXPLORATION
 
-Explore the repo. You MUST use /graphify skills to explore.
+Explore the repo. YOU MUST USE /graphify skill to explore.
 
 # IMPLEMENTATION
 

@@ -34,10 +34,8 @@ export const documentsApi = {
   delete: (personneId: string, documentId: string) =>
     apiClient.delete(`/dossier/personnes/${personneId}/documents/${documentId}`),
 
-  download: async (documentId: string) => {
-    const response = await apiClient.get(`/dossier/documents/${documentId}/download`, {
-      responseType: "blob",
-    });
-    return response;
+  getDownloadUrl: async (documentId: string) => {
+    const response = await apiClient.get<{ url: string }>(`/dossier/documents/${documentId}/download-url`);
+    return response.data.url;
   },
 };

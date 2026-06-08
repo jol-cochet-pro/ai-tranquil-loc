@@ -120,6 +120,10 @@ export function Dashboard() {
             <h3>Gestion des personnes</h3>
             <p>Ajouter, modifier ou supprimer les personnes du dossier</p>
           </button>
+          <button onClick={() => navigate('/transmissions')} className="card-action">
+            <h3>Transmissions</h3>
+            <p>Créer des liens de partage pour un propriétaire ou une agence</p>
+          </button>
         </div>
 
         <section className="dashboard-section">

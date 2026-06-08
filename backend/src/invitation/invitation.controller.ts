@@ -16,15 +16,15 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { InvitationService } from './invitation.service';
 import { DocumentService } from '../document/document.service';
+import { StorageService } from '../document/storage.service';
 import { Response } from 'express';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 
 @Controller()
 export class InvitationController {
   constructor(
     private readonly invitationService: InvitationService,
     private readonly documentService: DocumentService,
+    private readonly storage: StorageService,
   ) {}
 
   @Post('dossier/personnes/:id/invitations')
@@ -112,19 +112,12 @@ export class InvitationController {
       invitation.personneId,
     );
 
-    const uploadDir = process.env.UPLOAD_DIR || './uploads';
-    const filePath = path.join(uploadDir, doc.chemin);
-
-    if (!fs.existsSync(filePath)) {
-      throw new BadRequestException('File not found on storage');
-    }
-
+    const stream = await this.storage.readStream(doc.chemin);
     res.setHeader('Content-Type', doc.mimeType);
     res.setHeader(
       'Content-Disposition',
       `attachment; filename="${doc.nomFichier}"`,
     );
-    const stream = fs.createReadStream(filePath);
     stream.pipe(res);
   }
 }

@@ -1,24 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { DossierService } from '../dossier/dossier.service';
 import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class InvitationService {
-  constructor(private readonly prisma: PrismaService) {}
-
-  private async getDossierId(accountId: string) {
-    const dossier = await this.prisma.dossier.findUnique({
-      where: { accountId },
-      select: { id: true },
-    });
-    if (!dossier) {
-      throw new NotFoundException('Dossier not found');
-    }
-    return dossier.id;
-  }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly dossierService: DossierService,
+  ) {}
 
   async create(accountId: string, personneId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
 
     const personne = await this.prisma.personne.findFirst({
       where: { id: personneId, dossierId },
@@ -83,7 +76,7 @@ export class InvitationService {
   }
 
   async findAllForDossier(accountId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
 
     return this.prisma.invitation.findMany({
       where: {

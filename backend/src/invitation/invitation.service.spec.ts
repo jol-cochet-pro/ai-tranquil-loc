@@ -2,13 +2,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { InvitationService } from './invitation.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { DossierService } from '../dossier/dossier.service';
 import { jest, expect, describe, beforeEach, it } from '@jest/globals';
 
 describe('InvitationService', () => {
   let service: InvitationService;
 
+  const mockDossierService = {
+    resolveDossierId: jest.fn<any>(),
+  };
+
   const mockPrisma = {
-    dossier: { findUnique: jest.fn<any>() },
     personne: { findFirst: jest.fn<any>(), update: jest.fn<any>() },
     invitation: {
       create: jest.fn<any>(),
@@ -26,6 +30,7 @@ describe('InvitationService', () => {
       providers: [
         InvitationService,
         { provide: PrismaService, useValue: mockPrisma },
+        { provide: DossierService, useValue: mockDossierService },
       ],
     }).compile();
 
@@ -35,7 +40,7 @@ describe('InvitationService', () => {
 
   describe('create', () => {
     it('should create an invitation with a token for the personne', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue({
         id: 'personne-id',
         nom: 'Dupont',
@@ -66,7 +71,7 @@ describe('InvitationService', () => {
     });
 
     it('should throw NotFoundException if personne not found', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue(null);
 
       await expect(
@@ -170,7 +175,7 @@ describe('InvitationService', () => {
 
   describe('findAllForDossier', () => {
     it('should return all invitations for the dossier', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.invitation.findMany.mockResolvedValue([
         {
           id: 'inv-1',

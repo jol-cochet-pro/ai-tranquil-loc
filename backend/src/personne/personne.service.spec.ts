@@ -2,14 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { PersonneService } from './personne.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { DossierService } from '../dossier/dossier.service';
 import { TypeLogement } from './dto/create-personne.dto';
 import { jest, expect, describe, beforeEach, it } from '@jest/globals';
 
 describe('PersonneService', () => {
   let service: PersonneService;
 
+  const mockDossierService = {
+    resolveDossierId: jest.fn<any>(),
+  };
+
   const mockPrisma = {
-    dossier: { findUnique: jest.fn<any>() },
     statut: { findUnique: jest.fn<any>() },
     personne: {
       create: jest.fn<any>(),
@@ -25,6 +29,7 @@ describe('PersonneService', () => {
       providers: [
         PersonneService,
         { provide: PrismaService, useValue: mockPrisma },
+        { provide: DossierService, useValue: mockDossierService },
       ],
     }).compile();
 
@@ -34,11 +39,11 @@ describe('PersonneService', () => {
 
   describe('create', () => {
     it('should create a personne', async () => {
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.statut.findUnique.mockResolvedValue({
         id: 'statut-id',
         nom: 'Salarié',
       });
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
       mockPrisma.personne.create.mockResolvedValue({
         id: 'personne-id',
         nom: 'Dupont',
@@ -82,8 +87,10 @@ describe('PersonneService', () => {
     });
 
     it('should throw NotFoundException if dossier does not exist', async () => {
+      mockDossierService.resolveDossierId.mockRejectedValue(
+        new NotFoundException('Dossier not found'),
+      );
       mockPrisma.statut.findUnique.mockResolvedValue({ id: 'statut-id' });
-      mockPrisma.dossier.findUnique.mockResolvedValue(null);
 
       await expect(
         service.create('account-id', {
@@ -98,7 +105,7 @@ describe('PersonneService', () => {
 
   describe('findAll', () => {
     it('should return all personnes for the dossier', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findMany.mockResolvedValue([
         { id: 'p1', nom: 'Dupont', statut: { nom: 'Salarié' } },
         { id: 'p2', nom: 'Martin', statut: { nom: 'Étudiant' } },
@@ -117,7 +124,7 @@ describe('PersonneService', () => {
 
   describe('findOne', () => {
     it('should return a personne by id', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue({
         id: 'personne-id',
         nom: 'Dupont',
@@ -130,7 +137,7 @@ describe('PersonneService', () => {
     });
 
     it('should throw NotFoundException if personne not found', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue(null);
 
       await expect(service.findOne('invalid-id', 'account-id')).rejects.toThrow(
@@ -141,7 +148,7 @@ describe('PersonneService', () => {
 
   describe('update', () => {
     it('should update a personne', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue({
         id: 'personne-id',
         dossierId: 'dossier-id',
@@ -166,7 +173,7 @@ describe('PersonneService', () => {
     });
 
     it('should throw NotFoundException if personne not found', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue(null);
 
       await expect(
@@ -177,7 +184,7 @@ describe('PersonneService', () => {
 
   describe('remove', () => {
     it('should delete a personne', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue({
         id: 'personne-id',
         dossierId: 'dossier-id',
@@ -191,7 +198,7 @@ describe('PersonneService', () => {
     });
 
     it('should throw NotFoundException if personne not found', async () => {
-      mockPrisma.dossier.findUnique.mockResolvedValue({ id: 'dossier-id' });
+      mockDossierService.resolveDossierId.mockResolvedValue('dossier-id');
       mockPrisma.personne.findFirst.mockResolvedValue(null);
 
       await expect(service.remove('invalid-id', 'account-id')).rejects.toThrow(

@@ -1,12 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
+  GetObjectCommand,
 } from '@aws-sdk/client-s3';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { Readable } from 'node:stream';
 
 export interface StoredFile {
   chemin: string;
@@ -53,6 +55,13 @@ export class StorageService {
       return this.removeS3(chemin);
     }
     return this.removeLocal(chemin);
+  }
+
+  async readStream(chemin: string): Promise<Readable> {
+    if (this.driver === 's3') {
+      return this.readStreamS3(chemin);
+    }
+    return this.readStreamLocal(chemin);
   }
 
   private storeLocal(buffer: Buffer, nomFichier: string): StoredFile {
@@ -104,5 +113,23 @@ export class StorageService {
     } catch (err) {
       this.logger.warn(`Failed to remove S3 object at ${chemin}: ${err}`);
     }
+  }
+
+  private readStreamLocal(chemin: string): Readable {
+    const fullPath = path.join(this.uploadDir, chemin);
+    if (!fs.existsSync(fullPath)) {
+      throw new NotFoundException('File not found on storage');
+    }
+    return fs.createReadStream(fullPath);
+  }
+
+  private async readStreamS3(chemin: string): Promise<Readable> {
+    const response = await this.s3!.send(
+      new GetObjectCommand({ Bucket: this.s3Bucket, Key: chemin }),
+    );
+    if (!response.Body) {
+      throw new NotFoundException('File not found on storage');
+    }
+    return response.Body as Readable;
   }
 }

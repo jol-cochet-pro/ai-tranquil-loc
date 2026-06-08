@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { DossierService } from '../dossier/dossier.service';
 import { StorageService } from './storage.service';
 import { extname } from 'node:path';
 
@@ -29,22 +30,12 @@ function slug(value: string): string {
 export class DocumentService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly dossierService: DossierService,
     private readonly storage: StorageService,
   ) {}
 
-  private async getDossierId(accountId: string) {
-    const dossier = await this.prisma.dossier.findUnique({
-      where: { accountId },
-      select: { id: true },
-    });
-    if (!dossier) {
-      throw new NotFoundException('Dossier not found');
-    }
-    return dossier.id;
-  }
-
   private async assertPersonneOwnership(personneId: string, accountId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     const personne = await this.prisma.personne.findFirst({
       where: { id: personneId, dossierId },
       include: { statut: true },
@@ -150,7 +141,7 @@ export class DocumentService {
       throw new NotFoundException('Document not found');
     }
 
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     if (doc.personne.dossierId !== dossierId) {
       throw new NotFoundException('Document not found');
     }
@@ -168,7 +159,7 @@ export class DocumentService {
       throw new NotFoundException('Document not found');
     }
 
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     if (doc.personne.dossierId !== dossierId) {
       throw new NotFoundException('Document not found');
     }

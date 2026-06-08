@@ -1,22 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { DossierService } from '../dossier/dossier.service';
 import { CreatePersonneDto } from './dto/create-personne.dto';
 import { UpdatePersonneDto } from './dto/update-personne.dto';
 
 @Injectable()
 export class PersonneService {
-  constructor(private readonly prisma: PrismaService) {}
-
-  private async getDossierId(accountId: string) {
-    const dossier = await this.prisma.dossier.findUnique({
-      where: { accountId },
-      select: { id: true },
-    });
-    if (!dossier) {
-      throw new NotFoundException('Dossier not found');
-    }
-    return dossier.id;
-  }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly dossierService: DossierService,
+  ) {}
 
   async create(accountId: string, dto: CreatePersonneDto) {
     const statut = await this.prisma.statut.findUnique({
@@ -26,7 +19,7 @@ export class PersonneService {
       throw new NotFoundException(`Statut with id ${dto.statutId} not found`);
     }
 
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
 
     return this.prisma.personne.create({
       data: {
@@ -43,7 +36,7 @@ export class PersonneService {
   }
 
   async findAll(accountId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     return this.prisma.personne.findMany({
       where: { dossierId },
       include: { statut: true },
@@ -52,7 +45,7 @@ export class PersonneService {
   }
 
   async findOne(id: string, accountId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     const personne = await this.prisma.personne.findFirst({
       where: { id, dossierId },
       include: { statut: true },
@@ -64,7 +57,7 @@ export class PersonneService {
   }
 
   async update(id: string, accountId: string, dto: UpdatePersonneDto) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     const personne = await this.prisma.personne.findFirst({
       where: { id, dossierId },
     });
@@ -89,7 +82,7 @@ export class PersonneService {
   }
 
   async remove(id: string, accountId: string) {
-    const dossierId = await this.getDossierId(accountId);
+    const dossierId = await this.dossierService.resolveDossierId(accountId);
     const personne = await this.prisma.personne.findFirst({
       where: { id, dossierId },
     });

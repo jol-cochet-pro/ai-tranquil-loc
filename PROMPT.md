@@ -26,7 +26,7 @@ TL;DR - build a tiny, end-to-end slice of the feature first, then expand it out.
 
 # EXPLORATION
 
-Explore the repo.
+Explore the repo. You MUST use /graphify skills to explore.
 
 # IMPLEMENTATION
 
@@ -39,6 +39,7 @@ Before committing, run the feedback loops in the backend and the frontend:
 - `npm run test` to run the tests
 - `npm run typecheck` to run the type checker
 - `npm run lint` to run the linter (make sure everything is fixed before validating)
+- `npm run fallow` to run fallow to fix the code quality (make sure every HIGH and above errors are fixed)
 
 # COMMIT
 
